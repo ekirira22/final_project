@@ -13,15 +13,17 @@ use app\core\Request;
 class SiteController extends Controller
 {
 
+
     public function home()
     {
 
-        return $this->render('home');
+        $params =[];
+        return $this->render('home', $params);
     }
     public function contact(): string
     {
-
-        return $this->render('contact');
+        $params =[];
+        return $this->render('contact', $params);
     }
 
     public function invalid(){

@@ -47,11 +47,19 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </li>-->
-        <li class="nav-list" style="margin-left: 50%">
-            <a class="btn-danger" href="/login">
-                Login As Staff
-            </a>
-        </li>
+        <div  style="margin-left: 50%; display: flex; justify-content: space-evenly" >
+            <li class="nav-list">
+                <a class="btn-danger" href="/login">
+                    Login As Staff
+                </a>
+            </li>
+            <li class="nav-list">
+                <a class="btn-danger" href="/register">
+                    Register Staff
+                </a>
+            </li>
+        </div>
+
     </ul>
 </nav>
 

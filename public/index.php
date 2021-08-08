@@ -24,10 +24,14 @@ $app->router->get('/', [SiteController::class, 'home']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
 
 /* Auth Routes*/
-
+/*Login*/
 $app->router->get('/login', [AuthController::class, 'login']);
-
 $app->router->post('/login', [AuthController::class, 'login']);
+
+/*Register*/
+$app->router->get('/register', [AuthController::class, 'register']);
+
+$app->router->post('/register', [AuthController::class, 'register']);
 
 $app->run();
 

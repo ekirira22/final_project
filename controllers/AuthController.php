@@ -11,6 +11,9 @@ use app\core\Application;
 use app\controllers\Controller;
 use app\core\Request;
 
+use app\models\LoginModel;
+use app\models\RegisterModel;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -20,14 +23,74 @@ class AuthController extends Controller
          */
         $this->setLayout('auth');
 
+        /*
+         * Here we create an instance of loginModel which has validation, load ang login methods
+         */
+        $loginModel = new LoginModel();
+
         if($request->getMethod() === "post"):
 
+            $loginModel->loadData($request->getBody());
+            /*
+             * If the loaded data passes validation and logs in user in db, do this
+             */
+            if($loginModel->validate() && $loginModel->loginUser())
+            {
+                return 'Success';
+            }
+            /*
+             * Else, return the user back to the /login page, with the $loginModel object as params
+             * In order to access the added Errors in the array and output them
+             */
+            return $this->render('login', [
+                'model' => $loginModel
+            ]);
+        endif;
+        /*
+         * If neither of the above are met, it means the page is using get method, do this;
+         */
+        return $this->render('login', [
+            'model' => $loginModel
+        ]);
 
+
+    }
+
+    /*
+     * Registers User or Directs to register page depending on the method
+     */
+    public function register(Request $request)
+    {
+        $this->setLayout('app');
+
+        $registerModel = new RegisterModel();
+
+        if($request->getMethod() === "post"):
+            $registerModel->loadData($request->getBody());
+            /*
+             * If the loaded data passes validation and registers user in db, do this
+             */
+            if($registerModel->validate() && $registerModel->registersUser())
+            {
+                return 'Success';
+            }
+
+            /*
+             * Else, return the user back to the /register page, with the $registerModel object as params
+             * In order to access the added Errors in the array and output them
+             */
+
+            return $this->render('register', [
+                'model' => $registerModel
+            ]);
         endif;
 
-        return $this->render('login');
-
-
+        /*
+         * If neither of the above are met, it means the page is using get method, do this;
+         */
+        return $this->render('register', [
+            'model' => $registerModel
+        ]);
     }
 
 }

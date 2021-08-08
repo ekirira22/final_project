@@ -113,9 +113,9 @@ class Router
 
     protected function renderOnlyView($view, $params){
 
-//        foreach ($params as $key => $param) {
-//            $$key = $param;
-//        }
+        foreach ($params as $key => $value) {
+            $$key = $value;
+        }
 
         ob_start();
         include_once Application::$ROOT_DIR . "/views/pages/$view.php";
