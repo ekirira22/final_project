@@ -6,9 +6,10 @@ namespace app\models;
  * in order to determine whether to login user etc.
  */
 
-use app\core\Model;
+use app\core\DbModel;
 
-class LoginModel extends Model
+
+class LoginModel extends DbModel
 {
     /*Declare variables from the form input*/
 
@@ -17,7 +18,7 @@ class LoginModel extends Model
 
     public function loginUser()
     {
-        return "Logging in user";
+       //todo
     }
 
     public function rules(): array
@@ -26,5 +27,15 @@ class LoginModel extends Model
           'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
           'password' => [self::RULE_REQUIRED]
         ];
+    }
+
+    public function tableName(): string
+    {
+        // TODO: Implement tableName() method.
+    }
+
+    public function attributes(): array
+    {
+        // TODO: Implement attributes() method.
     }
 }

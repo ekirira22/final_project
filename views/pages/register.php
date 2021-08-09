@@ -1,4 +1,3 @@
-
 <div class="main-block">
     <div class="pb-16">
         <h2 class="main-heading">Create a staff</h2>
@@ -48,7 +47,7 @@
             <input type="password" class="form-input" name="password"/>
 
             <div class="error">
-                <small><?php echo "" ?? $model->getErrors('password') ?></small>
+                <small><?php echo $model->getErrors('password') ?? "" ?></small>
             </div>
         </div>
 
@@ -81,7 +80,6 @@
                 <option value="admin">Admin</option>
                 <option value="cec">Chief Officer</option>
                 <option value="pm">Project Manager</option>
-                <option value="st">Staff</option>
             </select>
 
             <div class="error">

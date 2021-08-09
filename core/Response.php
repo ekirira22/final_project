@@ -20,4 +20,9 @@ class Response
         return $this->code;
     }
 
+    public function redirect(string $path)
+    {
+        header('Location: ' . $path);
+    }
+
 }

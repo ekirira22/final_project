@@ -13,6 +13,7 @@ abstract class Model
     public const RULE_REQUIRED = 'required';
     public const RULE_EMAIL = 'email';
     public const RULE_MATCH = 'match';
+    public const RULE_UNIQUE = 'unique';
 
     public array $errors = [];
 
@@ -64,6 +65,24 @@ abstract class Model
                     $this->addErrors($attribute, self::RULE_MATCH);
                 }
 
+                if($ruleName === self::RULE_UNIQUE)
+                {
+                    $className = $rule['class'];
+                    $tableName = $className::tableName();
+                    $uniqueAttr = $rule['attr'] ?? $attribute;
+
+                    $statement = Application::$app->db->prepare("SELECT * FROM $tableName WHERE $uniqueAttr = :attr");
+                    $statement->bindValue(":attr", $value);
+                    $statement->execute();
+                    $record = $statement->fetchObject();
+
+                    if($record)
+                    {
+                        $this->addErrors($uniqueAttr, self::RULE_UNIQUE);
+                    }
+
+                }
+
             }
         }
 
@@ -77,12 +96,14 @@ abstract class Model
         $this->errors[$attribute][] = $msg;
     }
 
-    public function getMessage()
+    public function getMessage(): array
     {
         return [
             self::RULE_REQUIRED => 'This Field is required',
             self::RULE_EMAIL => 'Please input valid email address',
-            self::RULE_MATCH => 'Passwords must match',
+            self::RULE_MATCH => 'The Passwords must match',
+            self::RULE_UNIQUE => 'This record exists in the database',
+
         ];
     }
 
@@ -93,6 +114,7 @@ abstract class Model
             return $error;
         }
     }
+
 
 
 }

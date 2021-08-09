@@ -1,0 +1,3 @@
+#Ignores files or folders and does not push them to github
+.idea
+

@@ -9,11 +9,18 @@ use app\controllers\AuthController;
 
 /*
  * An instance of Application is run, we pass directory name of current directory using magic constant
- * __DIR__ so that we can always call root directory from Application class constructor
+ * __DIR__ so that we can always call root directory from Application class constructor, we also pass the db configuration
  */
 
+$config = [
+    'db' => [
+        'dsn' => 'mysql:host=localhost;port=3306;dbname=final_pms',
+        'user' => 'root',
+        'password' => '',
+    ]
+];
 
-$app = new Application(dirname(__DIR__));
+$app = new Application(dirname(__DIR__), $config);
 
 /*
  * Below,get function inside router instance takes all the given routes here and stores them

@@ -12,7 +12,7 @@ use app\controllers\Controller;
 use app\core\Request;
 
 use app\models\LoginModel;
-use app\models\RegisterModel;
+use app\models\UserModel;
 
 class AuthController extends Controller
 {
@@ -63,25 +63,26 @@ class AuthController extends Controller
     {
         $this->setLayout('app');
 
-        $registerModel = new RegisterModel();
+        $userModel = new UserModel();
 
         if($request->getMethod() === "post"):
-            $registerModel->loadData($request->getBody());
+            $userModel->loadData($request->getBody());
             /*
              * If the loaded data passes validation and registers user in db, do this
              */
-            if($registerModel->validate() && $registerModel->registersUser())
+            if($userModel->validate() && $userModel->register())
             {
-                return 'Success';
+                Application::$app->session->setFlashMessage('success', 'User registered Successfully');
+                Application::$app->response->redirect('/register');
             }
 
             /*
-             * Else, return the user back to the /register page, with the $registerModel object as params
+             * Else, return the user back to the /register page, with the $userModel object as params
              * In order to access the added Errors in the array and output them
              */
 
             return $this->render('register', [
-                'model' => $registerModel
+                'model' => $userModel
             ]);
         endif;
 
@@ -89,7 +90,7 @@ class AuthController extends Controller
          * If neither of the above are met, it means the page is using get method, do this;
          */
         return $this->render('register', [
-            'model' => $registerModel
+            'model' => $userModel
         ]);
     }
 

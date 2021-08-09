@@ -13,18 +13,22 @@ class Application
     public Request $request;
     public Response $response;
     public Controller $controller;
+    public Session $session;
+    public Database $db;
 
 
     /*
      * We will create a constructor that instantiates all important classes once Application is instantiated
      */
-    public function __construct($rootPath){
+    public function __construct($rootPath, $config){
 
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
         $this->response = new Response();
         $this->request = new Request();
         $this->router = new Router($this->request);
+        $this->session = new Session();
+        $this->db = new Database($config['db']);
 
     }
 

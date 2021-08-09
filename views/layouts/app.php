@@ -1,4 +1,7 @@
 <!--Main Application Layout-->
+<?php
+use app\core\Application;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,9 +75,16 @@
 
 <!--Content-->
 <div class="container">
-    <div>
 
-    </div>
+    <?php if(Application::$app->session->getFlashMessage('success')): ?>
+
+        <div class="alert alert-success">
+            <?php echo Application::$app->session->getFlashMessage('success'); ?>
+        </div>
+
+    <?php endif; ?>
+
+
 
     {{content}}
 
