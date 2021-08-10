@@ -13,7 +13,11 @@ class Session
 {
     /*
      *  flash_messages = [
-     *      'success' => [
+     *      'key' => [
+     *          'remove' => true / false,
+     *          'value' => message
+     *      ],
+     *      'key' => [
      *          'remove' => true / false,
      *          'value' => message
      *      ]
@@ -32,13 +36,14 @@ class Session
             $flashMessage['remove'] = true;
         }
         $_SESSION[self::FLASH_KEYS] = $flashMessages;
-
     }
 
 
     public function setFlashMessage($key, $message)
     {
-
+        /*
+         * Set remove to be false so that it may not disappear and be displayed
+         */
         $_SESSION[self::FLASH_KEYS][$key] = [
             'remove' => false,
             'value' => $message
@@ -65,4 +70,22 @@ class Session
 
 
     }
+
+    /*Maintaining sessions*/
+
+    public function set(string $user, $userId)
+    {
+        $_SESSION[$user] = $userId;
+    }
+
+    public function get(string $user)
+    {
+        return $_SESSION[$user] ?? false;
+    }
+
+    public function remove(string $user)
+    {
+        unset($_SESSION[$user]);
+    }
+
 }

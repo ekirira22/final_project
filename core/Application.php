@@ -4,6 +4,7 @@ namespace app\core;
 /* This will be the parent class for most classes*/
 
 use app\controllers\Controller;
+use app\models\UserModel;
 
 class Application
 {
@@ -14,13 +15,15 @@ class Application
     public Response $response;
     public Controller $controller;
     public Session $session;
+    public ?DbModel $user; //User may not exist, user can be guest
     public Database $db;
+
 
 
     /*
      * We will create a constructor that instantiates all important classes once Application is instantiated
      */
-    public function __construct($rootPath, $config){
+    public function __construct(string $rootPath, array $config){
 
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
@@ -29,6 +32,21 @@ class Application
         $this->router = new Router($this->request);
         $this->session = new Session();
         $this->db = new Database($config['db']);
+
+
+        /*
+         * Session Implementation
+         */
+        $primaryValue = $this->session->get('user');
+        if($primaryValue)
+        {
+            //Meaning user is logged in since 'user' has a value
+            $primaryKey = UserModel::primaryKey();
+            $this->user = UserModel::findOneRecord([$primaryKey => $primaryValue]);
+            //This makes sure you can access the userObj at any point in the application
+        }else{
+            $this->user = null;
+        }
 
     }
 
@@ -52,5 +70,31 @@ class Application
 //    {
 //        $this->controller = $controller;
 //    }
+    public function login(DbModel $user)
+    {
+        $this->user = $user;
+        $primaryKey = $user->primaryKey();
+        $primaryValue = $user->{$primaryKey};
+
+        //set session for user
+
+        $this->session->set('user', $primaryValue);
+
+        /*
+         * NB: This will be only set when user is logged in, if another request is made,
+         * The user will not be set and we need to read the session, get primary value, select the
+         * user and specify. This will be implemented in constructor
+         */
+
+    }
+
+    public function logout()
+    {
+        $this->user = null;
+        $this->session->remove('user');
+        $this->response->redirect('/');
+    }
+
+
 
 }

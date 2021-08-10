@@ -26,14 +26,18 @@ $app = new Application(dirname(__DIR__), $config);
  * Below,get function inside router instance takes all the given routes here and stores them
  * inside the protected routes array inside Router class
  */
-$app->router->get('/', [SiteController::class, 'home']);
 
+
+$app->router->get('/', [SiteController::class, 'guest']);
+$app->router->get('/home', [SiteController::class, 'home']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
 
 /* Auth Routes*/
-/*Login*/
+/*Login and Logout*/
 $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);
+$app->router->get('/logout', [AuthController::class, 'logout']);
+
 
 /*Register*/
 $app->router->get('/register', [AuthController::class, 'register']);

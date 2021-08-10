@@ -14,12 +14,21 @@ class SiteController extends Controller
 {
 
 
+    public function guest()
+    {
+
+        $params =[];
+        return $this->render('guest', $params);
+    }
+
     public function home()
     {
 
         $params =[];
+        $this->setLayout('app');
         return $this->render('home', $params);
     }
+
     public function contact(): string
     {
         $params =[];

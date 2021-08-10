@@ -36,7 +36,9 @@ class AuthController extends Controller
              */
             if($loginModel->validate() && $loginModel->loginUser())
             {
-                return 'Success';
+
+                Application::$app->response->redirect('/home');
+                return;
             }
             /*
              * Else, return the user back to the /login page, with the $loginModel object as params
@@ -92,6 +94,11 @@ class AuthController extends Controller
         return $this->render('register', [
             'model' => $userModel
         ]);
+    }
+
+    public function logout()
+    {
+        Application::$app->logout();
     }
 
 }

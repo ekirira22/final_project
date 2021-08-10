@@ -27,6 +27,11 @@ class UserModel extends DbModel
         return 'staff';
     }
 
+    public function primaryKey(): string
+    {
+        return 'id';
+    }
+
     public function attributes(): array
     {
         return ['names', 'id_number', 'mobile_no', 'email', 'password', 'status', 'user_type'];

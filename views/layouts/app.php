@@ -1,6 +1,14 @@
 <!--Main Application Layout-->
 <?php
 use app\core\Application;
+
+if(!$_SESSION['user']):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
+$user = Application::$app->user;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,12 +66,13 @@ use app\core\Application;
                     </div>
             </li>
 
-            <li class="nav-list" style="margin-left: 800px">
-                <a class="nav-link" href="/logout">
-                    Welcome
-                    (Logout)
-                </a>
-            </li>
+                <li class="nav-list" style="margin-left: 800px">
+                    <a class="nav-link" href="/logout">
+                        Welcome <?php echo $user->names;?>
+                        (Logout)
+                    </a>
+                </li>
+
         </ul>
         <!-- /Left navigation -->
 

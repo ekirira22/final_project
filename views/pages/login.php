@@ -12,7 +12,7 @@
             <input name="email" class="form-input" value="<?php echo $model->email ?? "";?>">
 
             <div class="error">
-                <small><?php echo $model->getErrors('email') ?></small>
+                <small><?php echo $model->getErrors('email') ?? '' ?></small>
             </div>
         </div>
 
@@ -21,7 +21,7 @@
             <input type="password" name="password" class="form-input">
 
             <div class="error">
-                <small><?php echo $model->getErrors('password') ?></small>
+                <small><?php echo $model->getErrors('password') ?? '' ?></small>
             </div>
         </div>
 

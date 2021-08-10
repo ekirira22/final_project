@@ -24,6 +24,9 @@ abstract class DbModel extends Model
     abstract public function attributes() : array;
 
 
+    abstract public function primaryKey(): string;
+
+
     public function save(): bool
     {
         try {
@@ -47,6 +50,34 @@ abstract class DbModel extends Model
         }
 
         return true;
+    }
+
+
+    /* $where will look sth like  ['email' => name@example.com, 'names' => John Doe] etc  */
+    public function findOneRecord(array $where)
+    {
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+
+        $partSql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+
+        //SELECT * FROM $tableName WHERE email = :email AND names = :names
+
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $partSql");
+
+        foreach ($where as $key => $value)
+        {
+            $statement->bindValue(":$key", $value);
+        }
+
+        $statement->execute();
+
+        return $statement->fetchObject(static::class);
+        /*
+         * A static class is passed to the fetchObject to pass the class from which the method was called from
+         * In this case UserModel
+         */
+
     }
 
     public static function prepare($sql)
