@@ -74,11 +74,13 @@ class Application
     {
         $this->user = $user;
         $primaryKey = $user->primaryKey();
+        $userType = $user->userType();
         $primaryValue = $user->{$primaryKey};
+        $userTypeValue = $user->{$userType};
 
         //set session for user
 
-        $this->session->set('user', $primaryValue);
+        $this->session->set('user', [$primaryKey => $primaryValue, $userType => $userTypeValue]);
 
         /*
          * NB: This will be only set when user is logged in, if another request is made,

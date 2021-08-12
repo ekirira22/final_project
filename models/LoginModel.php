@@ -36,7 +36,6 @@ class LoginModel extends DbModel
         {
             $this->addErrorMessages('password', 'Wrong email or password');
             return false;
-
         }
 
         Application::$app->login($user);
@@ -65,5 +64,10 @@ class LoginModel extends DbModel
     public function primaryKey(): string
     {
         // TODO: Implement primaryKey() method.
+    }
+
+    public function userType(): string
+    {
+        // TODO: Implement userType() method.
     }
 }

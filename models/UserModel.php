@@ -32,6 +32,11 @@ class UserModel extends DbModel
         return 'id';
     }
 
+    public function userType(): string
+    {
+        return 'user_type';
+    }
+
     public function attributes(): array
     {
         return ['names', 'id_number', 'mobile_no', 'email', 'password', 'status', 'user_type'];

@@ -36,6 +36,7 @@ class Session
             $flashMessage['remove'] = true;
         }
         $_SESSION[self::FLASH_KEYS] = $flashMessages;
+
     }
 
 
@@ -73,19 +74,19 @@ class Session
 
     /*Maintaining sessions*/
 
-    public function set(string $user, $userId)
+    public function set(string $key, array $values)
     {
-        $_SESSION[$user] = $userId;
+        $_SESSION[$key] = $values;
     }
 
-    public function get(string $user)
+    public function get(string $key)
     {
-        return $_SESSION[$user] ?? false;
+        return $_SESSION[$key]['id'] ?? false;
     }
 
-    public function remove(string $user)
+    public function remove(string $key)
     {
-        unset($_SESSION[$user]);
+        unset($_SESSION[$key]);
     }
 
 }

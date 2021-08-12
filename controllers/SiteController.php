@@ -35,9 +35,5 @@ class SiteController extends Controller
         return $this->render('contact', $params);
     }
 
-    public function invalid(){
-
-    }
-
 
 }

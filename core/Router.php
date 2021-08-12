@@ -72,11 +72,8 @@ class Router
              * property, we're storing it to access it in layout and render the respective view
              */
 
-
             Application::$app->controller = new $callback[0];
             $callback[0] = Application::$app->controller;
-
-
 
             return call_user_func($callback, $this->request);
 

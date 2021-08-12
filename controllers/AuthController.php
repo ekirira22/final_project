@@ -83,7 +83,7 @@ class AuthController extends Controller
              * In order to access the added Errors in the array and output them
              */
 
-            return $this->render('register', [
+            return $this->render('../app/staff/register_staff', [
                 'model' => $userModel
             ]);
         endif;
@@ -91,7 +91,7 @@ class AuthController extends Controller
         /*
          * If neither of the above are met, it means the page is using get method, do this;
          */
-        return $this->render('register', [
+        return $this->render('../app/staff/register_staff', [
             'model' => $userModel
         ]);
     }

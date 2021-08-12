@@ -5,6 +5,7 @@ require_once __DIR__ . '/../myAutoloader.php';
 use app\core\Application;
 use app\controllers\SiteController;
 use app\controllers\AuthController;
+use app\controllers\DepartmentController;
 
 
 /*
@@ -27,7 +28,7 @@ $app = new Application(dirname(__DIR__), $config);
  * inside the protected routes array inside Router class
  */
 
-
+/*Main Site Routes*/
 $app->router->get('/', [SiteController::class, 'guest']);
 $app->router->get('/home', [SiteController::class, 'home']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
@@ -38,10 +39,19 @@ $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);
 $app->router->get('/logout', [AuthController::class, 'logout']);
 
+/*Department Routes*/
+$app->router->get('/departments', [DepartmentController::class, 'index']);
+$app->router->get('/department_create', [DepartmentController::class, 'create']);
+$app->router->post('/department_create', [DepartmentController::class, 'create']);
+$app->router->get('/department_edit', [DepartmentController::class, 'edit']);
+$app->router->post('/department_edit', [DepartmentController::class, 'edit']);
+$app->router->get('/department_del', [DepartmentController::class, 'delete']);
 
-/*Register*/
+
+
+
+/*Register Staff*/
 $app->router->get('/register', [AuthController::class, 'register']);
-
 $app->router->post('/register', [AuthController::class, 'register']);
 
 $app->run();

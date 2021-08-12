@@ -1,3 +1,11 @@
+<?php
+use app\core\Application;
+
+if($_SESSION['user']['user_type'] !== 'admin' ):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
+?>
 <div class="main-block">
     <div class="pb-16">
         <h2 class="main-heading">Create a staff</h2>

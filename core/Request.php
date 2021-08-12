@@ -19,6 +19,11 @@ class Request
 
     }
 
+    public function getReqId()
+    {
+        return $_GET['id'];
+    }
+
     public function getBody()
     {
         $body = [];

@@ -23,10 +23,20 @@ abstract class DbModel extends Model
 
     abstract public function attributes() : array;
 
-
     abstract public function primaryKey(): string;
 
+    abstract public function userType(): string;
 
+
+    public function all()
+    {
+        $tableName = static::tableName();
+
+        $statement = self::prepare("SELECT * FROM $tableName");
+        $statement->execute();
+        return $statement->fetchAll();
+
+    }
     public function save(): bool
     {
         try {
@@ -52,10 +62,45 @@ abstract class DbModel extends Model
         return true;
     }
 
+    public function update($id)
+    {
+        try {
+            $tableName = $this->tableName();
+            $attributes = $this->attributes();
+            $primaryKey = $this->primaryKey();
+            $partSql = implode(',', array_map(fn($attr) => "$attr = :$attr", $attributes));
 
-    /* $where will look sth like  ['email' => name@example.com, 'names' => John Doe] etc  */
+            //UPDATE $tablename SET dep_name = :dep_name, status = :status WHERE id=$id
+
+            $statement = self::prepare("UPDATE $tableName SET $partSql WHERE $primaryKey = $id");
+            foreach ($attributes as $attribute) {
+                $statement->bindValue(":$attribute", $this->{$attribute});
+            }
+            $statement->execute();
+        }catch (\PDOException $e){
+            echo "The record could not be updated. Error: " . $e->getMessage();
+        }
+    }
+
+    public function deleteById($id)
+    {
+        try {
+            $tableName = static::tableName();
+            $primaryKey = static::primaryKey();
+
+            //DELETE FROM $tableName WHERE id = :id
+
+            $statement = self::prepare("DELETE FROM $tableName WHERE $primaryKey = $id");
+            return $statement->execute();
+        }catch (\PDOException $e){
+            echo "The record could not be deleted. Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function findOneRecord(array $where)
     {
+        /* $where will look sth like  ['email' => name@example.com, 'names' => John Doe] etc  */
         $tableName = static::tableName();
         $attributes = array_keys($where);
 
