@@ -60,13 +60,16 @@ class DepartmentController extends Controller
         {
             $departments = new DepartmentModel();
             $departments->loadData($request->getBody());
-            if($departments->validate())
+            if($departments->validate() && $departments->update($request->getReqId()))
             {
                 /*Bug located: Cannot update upon second request after validation fails */
-                $departments->update($request->getReqId());
+
                 Application::$app->session->setFlashMessage('success', 'Department successfully Updated');
                 Application::$app->response->redirect('/departments');
             }
+            return $this->render('../app/departments/dep_edit', [
+                'model' => $departments
+            ]);
         }
 
         return $this->render('../app/departments/dep_edit', [

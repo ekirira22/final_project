@@ -14,6 +14,7 @@ class UserModel extends DbModel
 {
 
     public string $names = '';
+    public string $dep_id = '';
     public string $id_number = '';
     public string $mobile_no = '';
     public string $email = '';
@@ -39,12 +40,13 @@ class UserModel extends DbModel
 
     public function attributes(): array
     {
-        return ['names', 'id_number', 'mobile_no', 'email', 'password', 'status', 'user_type'];
+        return ['names', 'dep_id', 'id_number', 'mobile_no', 'email', 'password', 'status', 'user_type'];
     }
 
     public function register(): bool
     {
         $this->password = md5($this->password);
+        $this->dep_id = (int)$this->dep_id;
         return parent::save();
     }
 
@@ -55,6 +57,7 @@ class UserModel extends DbModel
     {
         return[
             'names' => [self::RULE_REQUIRED],
+            'dep_id' => [self::RULE_REQUIRED],
             'id_number' => [self::RULE_REQUIRED, [self::RULE_UNIQUE, 'class' => self::class, 'attr' => 'id_number']],
             'mobile_no' => [self::RULE_REQUIRED],
             'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [self::RULE_UNIQUE, 'class' => self::class, 'attr' => 'email']],
@@ -65,6 +68,13 @@ class UserModel extends DbModel
 
 
         ] ;
+    }
+
+    public function relationTables(): array
+    {
+        return [
+            'departments'
+        ];
     }
 
 

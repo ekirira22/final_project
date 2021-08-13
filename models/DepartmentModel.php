@@ -14,9 +14,12 @@ class DepartmentModel extends DbModel
 {
     public string $dep_name = '';
     public string $status = '';
+    public static DepartmentModel $dept;
 
-
-
+    public function __construct()
+    {
+        self::$dept = $this;
+    }
 
 
     public function tableName(): string

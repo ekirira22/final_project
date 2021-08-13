@@ -80,7 +80,7 @@ $user = Application::$app->user;
                             <a class="nav-link" href="/financial_year">Financial year</a>
                             <a class="nav-link" href="/departments">Departments</a>
                             <a class="nav-link" href="/sub_counties">Sub Counties</a>
-                            <a class="nav-link" href="/county_staffs">Staffs</a>
+                            <a class="nav-link" href="/staff">Staffs</a>
                         </div>
                     </div>
             </li>
@@ -91,7 +91,6 @@ $user = Application::$app->user;
                         <img src="assets/icons/projects.svg" alt="" style="width: 15px; height: 15px;"> Profile
                     </a>
                     <div class="dropdown-content">
-                        <a class="nav-link" href="">Change Username</a>
                         <a class="nav-link" href="">Change Password</a>
                         <a class="nav-link" href="/logout">Log out</a>
                     </div>
@@ -120,6 +119,14 @@ $user = Application::$app->user;
 
         <div class="alert alert-success">
             <?php echo Application::$app->session->getFlashMessage('success'); ?>
+        </div>
+
+    <?php endif; ?>
+
+    <?php if(Application::$app->session->getFlashMessage('failed')): ?>
+
+        <div class="alert alert-danger">
+            <?php echo Application::$app->session->getFlashMessage('failed'); ?>
         </div>
 
     <?php endif; ?>

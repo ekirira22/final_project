@@ -49,10 +49,16 @@ $app->router->get('/department_del', [DepartmentController::class, 'delete']);
 
 
 
-
-/*Register Staff*/
+/*County Staff*/
+$app->router->get('/staff', [AuthController::class, 'index']);
 $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
+$app->router->get('/staff_edit', [AuthController::class, 'edit']);
+$app->router->post('/staff_update', [AuthController::class, 'update']);
+$app->router->get('/staff_del', [AuthController::class, 'delete']);
+
+/*Financial Years*/
+
 
 $app->run();
 

@@ -56,7 +56,7 @@ abstract class DbModel extends Model
             $statement->execute();
 
         } catch (\PDOException $e){
-            echo "The record could not be saved. Error: " . $e->getMessage();
+            Application::$app->session->setFlashMessage('failed', 'The record could not be saved. Error: ' . $e->getMessage());
         }
 
         return true;
@@ -76,15 +76,26 @@ abstract class DbModel extends Model
             foreach ($attributes as $attribute) {
                 $statement->bindValue(":$attribute", $this->{$attribute});
             }
-            $statement->execute();
+
+           return $statement->execute();
         }catch (\PDOException $e){
-            echo "The record could not be updated. Error: " . $e->getMessage();
+            Application::$app->session->setFlashMessage('failed', 'Please input the data correctly: ' . $e->getMessage());
         }
+    }
+
+    public static function findById($id)
+    {
+        $tableName = static::tableName();
+        $statement = self::prepare("SELECT * FROM $tableName WHERE id = $id");
+        $statement->execute();
+
+        return $statement->fetchObject(static::class);
     }
 
     public function deleteById($id)
     {
         try {
+            $tableName = static::tableName();
             $tableName = static::tableName();
             $primaryKey = static::primaryKey();
 
@@ -93,7 +104,7 @@ abstract class DbModel extends Model
             $statement = self::prepare("DELETE FROM $tableName WHERE $primaryKey = $id");
             return $statement->execute();
         }catch (\PDOException $e){
-            echo "The record could not be deleted. Error: " . $e->getMessage();
+            Application::$app->session->setFlashMessage('failed', 'The record could not be deleted. Error: ' . $e->getMessage());
             return false;
         }
     }
@@ -125,9 +136,76 @@ abstract class DbModel extends Model
 
     }
 
+    /**
+     * Fetch all resources from database with relation
+     * @param array $fields
+     * @return array
+     */
+    public function fetchWithRelation(array $foreignKeys): array //[dep_id, nat_id]
+    {
+        $tableName = static::tableName();
+        $relation_tables = static::relationTables();
+        //SELECT * FROM staff JOIN departments ON staff.dep_id = departments.id JOIN nationality ON staff.nat_id = nationality.id
+
+        $relation_table_rep = array_map(fn($attr) => ":$attr", $relation_tables);
+        $sql = implode( ' JOIN ',  array_map(fn($attr) => "$attr ON :$attr = $attr.id ", $relation_tables));
+        $final_sql = str_replace($relation_table_rep, $foreignKeys, $sql);
+        $statement = self::prepare("SELECT *, $tableName.id FROM $tableName JOIN $final_sql");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+
+    public function fetchByIdWithRelation($id, array $foreignKeys)
+    {
+        $tableName = static::tableName();
+        $relation_tables = static::relationTables();
+        $relation_table_rep = array_map(fn($attr) => ":$attr", $relation_tables);
+        $sql = implode( ' JOIN ',  array_map(fn($attr) => "$attr ON :$attr = $attr.id ", $relation_tables));
+        $final_sql = str_replace($relation_table_rep, $foreignKeys, $sql);
+        $statement = self::prepare("SELECT *, $tableName.id FROM $tableName  JOIN $final_sql WHERE $tableName.id = $id");
+
+        $statement->execute();
+
+        return $statement->fetchObject(static::class);
+    }
+
     public static function prepare($sql)
     {
         return Application::$app->db->pdo->prepare($sql);
     }
 
 }
+
+
+
+
+
+
+
+//CREATE TABLE departments
+//( id INT PRIMARY KEY,
+//  dep_name VARCHAR(50) NOT NULL,
+//  status VARCHAR(25)
+//);
+//
+//CREATE TABLE staff
+//( id INT PRIMARY KEY,
+//  names VARCHAR(50),
+//  id_number VARCHAR(50),
+//  mobile_number VARCHAR(50),
+//  email VARCHAR(50),
+//  password VARCHAR(50),
+//  status VARCHAR(50),
+//  user_type VARCHAR(50),
+//  CONSTRAINT fk_dep_staff_id
+//    FOREIGN KEY (id)
+//    REFERENCES departments (id)
+//    ON DELETE CASCADE
+//);
+
+//ALTER TABLE staff
+//ADD CONSTRAINT fk_name_id
+//FOREIGN KEY (dep_id) REFERENCES departments(id)

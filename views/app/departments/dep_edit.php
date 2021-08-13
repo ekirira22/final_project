@@ -4,6 +4,8 @@ if($_SESSION['user']['user_type'] !== 'admin' ):
     Application::$app->response->redirect('/invalid-path');
 endif;
 $department = $model;
+
+
 ?>
 
 <div class="main-block">

@@ -53,11 +53,6 @@
                     Login As Staff
                 </a>
             </li>
-            <li class="nav-list">
-                <a class="btn-danger" href="/register">
-                    Register Staff
-                </a>
-            </li>
         </div>
 
     </ul>

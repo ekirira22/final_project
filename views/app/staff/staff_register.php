@@ -4,7 +4,8 @@ use app\core\Application;
 if($_SESSION['user']['user_type'] !== 'admin' ):
     Application::$app->response->redirect('/invalid-path');
 endif;
-
+$model = $params['model'];
+$departments = $params['departmentModel'] ?? [];
 ?>
 <div class="main-block">
     <div class="pb-16">
@@ -22,7 +23,19 @@ endif;
             </div>
         </div>
 
+        <div>
+            <label for="">Department</label>
+            <select name="dep_id" class="form-input">
+                <option selected>Select one</option>
+                <?php foreach ($departments as $department): ?>
+                    <option value="<?php echo $department['id'] ?>"><?php echo $department['dep_name'] ?></option>
+                <?php endforeach; ?>
+            </select>
 
+            <div class="error">
+                <small><?php echo $model->getErrors('dep_id') ?></small>
+            </div>
+        </div>
         <div>
             <label for="">ID</label>
             <input type="text" class="form-input" name="id_number" value="<?php echo $model->id_number ?? "";?>"/>
