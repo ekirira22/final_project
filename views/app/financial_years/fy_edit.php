@@ -1,5 +1,11 @@
 <?php
 /** Financial year edit form */
+use app\core\Application;
+
+if($_SESSION['user']['user_type'] !== 'admin' ):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 $financial_year = $params['model'];
 ?>
 

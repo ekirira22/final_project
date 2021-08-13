@@ -54,6 +54,7 @@ class DepartmentController extends Controller
     public function edit(Request $request)
     {
         $this->setLayout('app');
+        /*Fetches The Departments data by passing the id to the findById method which is called statically via DepartmentModel*/
         $departments = DepartmentModel::findOneRecord(['id' => $request->getReqId()]);
 
         if($request->getMethod() === "post")

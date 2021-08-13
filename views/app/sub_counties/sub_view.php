@@ -1,5 +1,11 @@
 <?php
 /** Sub county */
+use app\core\Application;
+
+if($_SESSION['user']['user_type'] !== 'admin' ):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 $sub_counties = $params['model'];
 ?>
 
@@ -10,7 +16,7 @@ $sub_counties = $params['model'];
     </div>
 
     <div>
-        <a href="/sub_county_create" class="btn btn-primary">Add new</a>
+        <a href="/sub_create" class="btn btn-primary">Add new</a>
     </div>
 </div>
 
@@ -43,10 +49,8 @@ $sub_counties = $params['model'];
                             <?php echo date_format(date_create($sub_county['created_at']), 'd-M-Y')  ?>
                         </td>
                         <td>
-                            <a href="/sub_county_edit?id=<?php echo $sub_county['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
-                            <a class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete_req').submit()">Delete</a>
-                            <form action="/sub_county_del?id=<?php echo $sub_county['id'] ?>" method="post" style="display: none">
-                            </form>
+                            <a href="/sub_edit?id=<?php echo $sub_county['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
+                            <a href="/sub_del?id=<?php echo $sub_county['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

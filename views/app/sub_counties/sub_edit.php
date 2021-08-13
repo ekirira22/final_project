@@ -1,5 +1,11 @@
 <?php
 /** Sub county edit */
+use app\core\Application;
+
+if($_SESSION['user']['user_type'] !== 'admin' ):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 $sub_county = $params['model'];
 ?>
 
@@ -9,22 +15,22 @@ $sub_county = $params['model'];
         <p class="secondary-font">Enter the required fields</p>
     </div>
 
-    <form action="/sub_county_update?id=<?php echo $sub_county->id; ?>" method="post">
+    <form action="/sub_update?id=<?php echo $sub_county->id; ?>" method="post">
         <div class="info">
             <label for="">Sub County</label>
-            <input class="form-input <?php if($sub_county->hasError('sub_name')) echo 'input-invalid' ?>" type="text" name="sub_name" value="<?php echo $sub_county->sub_name ?>">
+            <input class="form-input" type="text" name="sub_name" value="<?php echo $sub_county->sub_name ?>">
 
             <div class="error">
-                <small><?php echo $sub_county->getFirstError('sub_name') ?></small>
+                <small><?php echo $sub_county->getErrors('sub_name') ?></small>
             </div>
         </div>
 
         <div>
             <label for="">Ward</label>
-            <input class="form-input <?php if($sub_county->hasError('ward')) echo 'input-invalid' ?>" type="text" name="ward" value="<?php echo $sub_county->ward ?>">
+            <input class="form-input" type="text" name="ward" value="<?php echo $sub_county->ward ?>">
 
             <div class="error">
-                <small><?php echo $sub_county->getFirstError('ward') ?></small>
+                <small><?php echo $sub_county->getErrors('ward') ?></small>
             </div>
         </div>
 

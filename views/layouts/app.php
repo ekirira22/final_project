@@ -77,7 +77,7 @@ $user = Application::$app->user;
                             <img src="assets/icons/settings.svg" alt="" style="width: 15px; height: 15px;"> Settings
                         </a>
                         <div class="dropdown-content">
-                            <a class="nav-link" href="/financial_year">Financial year</a>
+                            <a class="nav-link" href="/financial_years">Financial year</a>
                             <a class="nav-link" href="/departments">Departments</a>
                             <a class="nav-link" href="/sub_counties">Sub Counties</a>
                             <a class="nav-link" href="/staff">Staffs</a>
@@ -91,7 +91,7 @@ $user = Application::$app->user;
                         <img src="assets/icons/projects.svg" alt="" style="width: 15px; height: 15px;"> Profile
                     </a>
                     <div class="dropdown-content">
-                        <a class="nav-link" href="">Change Password</a>
+                        <a class="nav-link" href="/staff_change_password">Change Password</a>
                         <a class="nav-link" href="/logout">Log out</a>
                     </div>
                 </div>

@@ -14,7 +14,6 @@ use app\core\Request;
 use app\models\DepartmentModel;
 use app\models\LoginModel;
 use app\models\UserModel;
-use http\Client\Curl\User;
 
 class AuthController extends Controller
 {
@@ -120,6 +119,7 @@ class AuthController extends Controller
     {
         $this->setLayout('app');
 
+        /*Fetches The Staff and Departments together from the DB using INNER JOIN*/
         $staffNdepartments = UserModel::fetchByIdWithRelation($request->getReqId(), ['dep_id']);
         $departments = DepartmentModel::all();
 
@@ -133,6 +133,7 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $this->setLayout('app');
+        /*Fetches The Staff data by passing the id to the findById method which is called statically via UserModel*/
         $staff = UserModel::findById($request->getReqId());
 
         $data = $request->getBody();
@@ -165,9 +166,55 @@ class AuthController extends Controller
 
     }
 
+    public function change_password(Request $request)
+    {
+        $this->setLayout('app');
+        $userId = $_SESSION['user']['id'];
+
+        $user = new UserModel();
+        $staff = UserModel::findById($userId);
+
+        if($request->getMethod() === "post")
+        {
+            $data = $request->getBody();
+
+            $user->loadData([
+                'names' => $staff->names,
+                'dep_id' => (int)$staff->dep_id,
+                'id_number' => $staff->id_number,
+                'mobile_no' => $staff->mobile_no,
+                'email' => $staff->email,
+                'password' => md5($data['password']),
+                'confirmPassword' => md5($data['confirmPassword']),
+                'status' => $staff->status,
+                'user_type' => $staff->user_type
+            ]);
+
+            if(md5($user->password) !== md5($user->confirmPassword))
+            {
+                Application::$app->session->setFlashMessage('failed', 'Error!! Passwords must match');
+            }
+
+            else
+            {
+                $user->update($userId);
+                Application::$app->session->setFlashMessage('success', 'Security Password Changed Successfully');
+                Application::$app->response->redirect('/staff');
+            }
+            return $this->render('../app/staff/staff_change_pass', [
+                'model' => $user
+            ]);
+        }
+
+        return $this->render('../app/staff/staff_change_pass', [
+            'model' => $user
+        ]);
+    }
+
     public function delete(Request $request)
     {
         $user = new UserModel();
+        /*Deletes staff by passing the id which is gotten using the get method to the deleteById method inside DbMdel class*/
         $delete = $user->deleteById($request->getReqId());
         if($delete):
             Application::$app->session->setFlashMessage('success', 'User Deleted Successfully');
