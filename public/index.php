@@ -6,6 +6,8 @@ use app\core\Application;
 use app\controllers\SiteController;
 use app\controllers\AuthController;
 use app\controllers\DepartmentController;
+use app\controllers\FinancialYearController;
+use app\controllers\SubCountyController;
 
 
 /*
@@ -55,9 +57,26 @@ $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
 $app->router->get('/staff_edit', [AuthController::class, 'edit']);
 $app->router->post('/staff_update', [AuthController::class, 'update']);
+$app->router->get('/staff_change_password', [AuthController::class, 'change_password']);
+$app->router->post('/staff_change_password', [AuthController::class, 'change_password']);
 $app->router->get('/staff_del', [AuthController::class, 'delete']);
 
 /*Financial Years*/
+$app->router->get('/financial_years', [FinancialYearController::class, 'index']);
+$app->router->get('/f_year_create', [FinancialYearController::class, 'create']);
+$app->router->post('/f_year_create', [FinancialYearController::class, 'create']);
+$app->router->get('/f_year_edit', [FinancialYearController::class, 'edit']);
+$app->router->post('/f_year_update', [FinancialYearController::class, 'update']);
+$app->router->get('/f_year_del', [FinancialYearController::class, 'delete']);
+
+/*Sub Counties and Wards*/
+$app->router->get('/sub_counties', [SubCountyController::class, 'index']);
+$app->router->get('/sub_create', [SubCountyController::class, 'create']);
+$app->router->post('/sub_create', [SubCountyController::class, 'create']);
+$app->router->get('/sub_edit', [SubCountyController::class, 'edit']);
+$app->router->post('/sub_update', [SubCountyController::class, 'update']);
+$app->router->get('/sub_del', [SubCountyController::class, 'delete']);
+
 
 
 $app->run();
