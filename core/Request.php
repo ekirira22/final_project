@@ -43,5 +43,10 @@ class Request
         return $body;
     }
 
+    public function getSearchVal()
+    {
+        return $_GET['search'] ?? false;
+    }
+
 
 }

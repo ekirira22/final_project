@@ -132,7 +132,6 @@ class AuthController extends Controller
 
     public function update(Request $request)
     {
-        $this->setLayout('app');
         /*Fetches The Staff data by passing the id to the findById method which is called statically via UserModel*/
         $staff = UserModel::findById($request->getReqId());
 
@@ -151,18 +150,21 @@ class AuthController extends Controller
             'user_type' => $data['user_type']
 
         ]);
+        if (!$user->validate())
+        {
+            Application::$app->session->setFlashMessage('failed', 'Kindly Fill all the data');
+            Application::$app->response->redirect('/staff');
+            exit;
+        }
         if($user->update($request->getReqId()))
         {
-            /*Bug located: Cannot update upon second request after validation fails */
+            /*Bug located: Cannot update upon second request after validation fails. Presumably because you cannot get
+             *posted id twice after another request is made?? --
+             */
 
             Application::$app->session->setFlashMessage('success', 'User successfully Updated');
             Application::$app->response->redirect('/staff');
         }
-
-        return $this->render('../app/staff/staff_edit', [
-            'model' => $staff
-        ]);
-
 
     }
 
@@ -189,17 +191,20 @@ class AuthController extends Controller
                 'status' => $staff->status,
                 'user_type' => $staff->user_type
             ]);
-
-            if(md5($user->password) !== md5($user->confirmPassword))
+            if($staff->password !== md5($data['oldPassword']))
             {
-                Application::$app->session->setFlashMessage('failed', 'Error!! Passwords must match');
+                Application::$app->session->setFlashMessage('failed', 'Error: Incorrect previous password');
+            }
+            else if(md5($user->password) !== md5($user->confirmPassword))
+            {
+                Application::$app->session->setFlashMessage('failed', 'Error: New Passwords must match');
             }
 
             else
             {
                 $user->update($userId);
                 Application::$app->session->setFlashMessage('success', 'Security Password Changed Successfully');
-                Application::$app->response->redirect('/staff');
+                Application::$app->response->redirect('/home');
             }
             return $this->render('../app/staff/staff_change_pass', [
                 'model' => $user

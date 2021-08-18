@@ -1,8 +1,5 @@
 <?php
 
-if($_SESSION['user']['user_type'] !== 'admin' ):
-    Application::$app->response->redirect('/invalid-path');
-endif;
 
 $staff = $params['model'];
 
@@ -17,7 +14,12 @@ $staff = $params['model'];
     <form action="/staff_change_password" method="post">
         <div class="info">
             <div>
-                <label for="">Password</label>
+                <label for="">Current Password</label>
+                <input type="password" class="form-input" name="oldPassword"/>
+
+            </div>
+            <div>
+                <label for="">New Password</label>
                 <input type="password" class="form-input" name="password"/>
 
                 <div class="error">
@@ -26,7 +28,7 @@ $staff = $params['model'];
             </div>
 
             <div>
-                <label for="">Confirm Password</label>
+                <label for="">Confirm New Password</label>
                 <input type="password" class="form-input" name="confirmPassword"/>
 
                 <div class="error">

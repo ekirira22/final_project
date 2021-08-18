@@ -9,6 +9,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\controllers\Controller;
 use app\core\Request;
+use app\models\ProjectModel;
 
 class SiteController extends Controller
 {
@@ -21,12 +22,25 @@ class SiteController extends Controller
         return $this->render('guest', $params);
     }
 
-    public function home()
+    public function home(Request $request)
     {
 
-        $params =[];
+        $projects = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id']);
+        $search = $request->getSearchVal();
+
+        $results = ProjectModel::fetchBySearchWithRelation($search,['project_name', 'dep_name', 'sub_name'], ['dep_id', 'sub_id', 'year_id']);
+
+        //var_dump($results);
+
         $this->setLayout('app');
-        return $this->render('home', $params);
+
+        return $this->render('home', [
+            'model' => $projects,
+            'search' => [
+                'value' => $search,
+                'results' => $results
+            ]
+        ]);
     }
 
     public function contact(): string
