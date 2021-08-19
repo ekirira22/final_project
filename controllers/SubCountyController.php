@@ -90,7 +90,5 @@ class SubCountyController extends Controller
             exit;
 
         }
-        Application::$app->session->setFlashMessage('failed', 'Something went wrong');
-        exit;
     }
 }

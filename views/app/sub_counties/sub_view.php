@@ -50,7 +50,7 @@ $sub_counties = $params['model'];
                         </td>
                         <td>
                             <a href="/sub_edit?id=<?php echo $sub_county['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
-                            <a href="/sub_del?id=<?php echo $sub_county['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
+                            <a onclick="return deleteConfig()" href="/sub_del?id=<?php echo $sub_county['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

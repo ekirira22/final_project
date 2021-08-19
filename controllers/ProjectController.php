@@ -13,6 +13,7 @@ use app\models\DepartmentModel;
 use app\models\FinancialModel;
 use app\models\ProjectModel;
 use app\models\SubCountyModel;
+use app\models\UserModel;
 
 
 class ProjectController extends Controller
@@ -26,7 +27,7 @@ class ProjectController extends Controller
         $this->setLayout('app');
         /* Sets the rendered page layout to app*/
 
-        $projectData = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id']);
+        $projectData = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id', 'staff_id']);
         /*We call fetchWithRelation() statically (in order to get an array) through the ProjectModel class
          * and pass the foreign keys associated with relation tables within the respective model
          * NB: (also in the order in which the relation tables are passed in the Model which is passed
@@ -56,6 +57,7 @@ class ProjectController extends Controller
         $sub_counties = SubCountyModel::all();
         $departments = DepartmentModel::all();
         $f_years = FinancialModel::all();
+        $staffs = UserModel::fetchWithRelationWhere(['user_type' => 'staff'], ['dep_id']);
 
         $projects->loadData($request->getBody());
         /* Data from the page body is taken and passed as a parameter to this loadData function that loads
@@ -83,7 +85,8 @@ class ProjectController extends Controller
                 'projectModel' => $projects,
                 'subCountyModel' => $sub_counties,
                 'departmentModel' => $departments,
-                'fyearModel' => $f_years
+                'fyearModel' => $f_years,
+                'staffs' => $staffs
             ]);
 
         }
@@ -95,7 +98,8 @@ class ProjectController extends Controller
             'projectModel' => $projects,
             'subCountyModel' => $sub_counties,
             'departmentModel' => $departments,
-            'fyearModel' => $f_years
+            'fyearModel' => $f_years,
+            'staffs' => $staffs
         ]);
 
     }
@@ -108,13 +112,14 @@ class ProjectController extends Controller
          * subcounties, departments and fyears by statically calling the fetchByIdRelation via ProjectsModel class
          * We get the id from the URL using getReqId() from Request class that is passed to this function
          */
-        $projects = ProjectModel::fetchByIdWithRelation($request->getReqId(), ['dep_id', 'sub_id', 'year_id']);
+        $projects = ProjectModel::fetchByIdWithRelation($request->getReqId(), ['dep_id', 'sub_id', 'year_id', 'staff_id']);
         return $this->render('../app/projects/project_edit', [
             'model' => [
                 'project' => $projects,
                 'departments' => DepartmentModel::all(),
                 'sub_counties' => SubCountyModel::all(),
-                'f_years' => FinancialModel::all()
+                'f_years' => FinancialModel::all(),
+                'staffs' => UserModel::fetchWithRelation(['dep_id'])
             ]
         ]);
 
@@ -131,6 +136,7 @@ class ProjectController extends Controller
          */
         $project->loadData([
             'project_name' => $data['project_name'],
+            'staff_id' => $data['staff_id'],
             'dep_id'  => (int)$data['dep_id'],
             'sub_id' => (int)$data['sub_id'],
             'year_id' => (int)$data['year_id'],

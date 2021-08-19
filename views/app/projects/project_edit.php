@@ -6,6 +6,7 @@ $data = $params['model'];
 $project = $params['model']['project']  ?? [];
 //Loads current project data per the project id and displays on user input fields
 //var_dump($project->id);
+
 ?>
 
 <div class="main-block">
@@ -25,6 +26,19 @@ $project = $params['model']['project']  ?? [];
         <!--Loop through the departments, subcounties and financial years passed an associative array via model,
         and display all of them as options. If the department['id], sub_county['id'] and f_year['id'] in the database is the same as the one
         that was fetched via project id, set that option to selected for it to come as selected for the user-->
+        <div>
+            <label for="">County Staff</label>
+            <label>
+                <select name="staff_id" class="form-input">
+                    <option value="" selected>Select one</option>
+                    <?php foreach ($data['staffs'] as $staff): ?>
+                        <option value="<?php echo $staff['id'] ?>" <?php if($staff['id'] == $project->staff_id) echo 'selected=selected' ?>>
+                            <?php echo $staff['names'] . ' - ' . $staff['dep_name'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </div>
 
         <div>
             <label for="">Department</label>

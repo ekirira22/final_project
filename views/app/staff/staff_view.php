@@ -71,7 +71,7 @@ $staffs = $params['model'];
                         <td>
                             <div style="display: flex; justify-content: space-evenly">
                                 <a href="/staff_edit?id=<?php echo $staff['id'] ?>" class="btn btn-secondary">Edit</a>
-                                <a  href="/staff_del?id=<?php echo $staff['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
+                                <a onclick="return deleteConfig()"  href="/staff_del?id=<?php echo $staff['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
                             </div>
                         </td>
                     </tr>

@@ -13,6 +13,7 @@ $fyears = $params['fyearModel'];
 //Returns an object with all the financial years from the database
 $projects = $params['projectModel'];
 //Returns and object with all the projects information loaded from the user input
+$staffs = $params['staffs']
 
 ?>
 
@@ -30,6 +31,16 @@ $projects = $params['projectModel'];
 
         <div class="error">
             <small><?php echo $projects->getErrors('project_name') ?? "" ?></small>
+        </div>
+
+        <div>
+            <label for="">County Staff</label>
+            <select name="staff_id" class="form-input">
+                <option value="" selected>Select one</option>
+                <?php foreach ($staffs as $staff) { ?>
+                    <option value="<?php echo $staff['id']; ?>" > <?php echo $staff['names'] . ' - ' . $staff['dep_name']; ?> </option>
+                <?php } ?>
+            </select>
         </div>
 
         <div>
@@ -51,7 +62,7 @@ $projects = $params['projectModel'];
             <select name="sub_id" class="form-input">
                 <option value="" selected>Select one</option>
                 <?php foreach ($subcounties as $subcounty) { ?>
-                    <option value="<?php echo $subcounty['id']; ?>" > <?php echo $subcounty['sub_name'] . '-' .  $subcounty['ward']; ; ?> </option>
+                    <option value="<?php echo $subcounty['id']; ?>" > <?php echo $subcounty['sub_name'] . '  -  ' .  $subcounty['ward']; ?> </option>
                 <?php } ?>
             </select>
         </div>

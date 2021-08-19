@@ -36,7 +36,7 @@ class Session
             $flashMessage['remove'] = true;
         }
         $_SESSION[self::FLASH_KEYS] = $flashMessages;
-
+        //var_dump($_SESSION);
     }
 
 

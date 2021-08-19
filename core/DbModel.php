@@ -47,6 +47,27 @@ abstract class DbModel extends Model
 
     }
 
+    public function findAllWhere(array $where) //where will be associative Eg. ['status' => 'approved', 'user_type' => 'staff' ]
+    {
+
+
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+        //SELECT * FROM $tableName WHERE status = :status AND user_type = :user_type
+
+        $attr = array_map(fn($attr) => "$attr = :$attr", $attributes);
+        $partSql = implode(" AND ", $attr);
+
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $partSql");
+
+        foreach ($where as $key => $item) {
+            $statement->bindValue(":$key", $item);
+        }
+
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
     /*
      * Public function save() where the model class calling this function has to be instantiated
      * i.e cannot be called statically since it won't read $this->tableName()
@@ -93,6 +114,10 @@ abstract class DbModel extends Model
             {
                 $statement->bindValue(":$attribute", $this->{$attribute});
             }
+            /*
+             * Log user activity
+             */
+            self::logUserActivity("inserted a record into $tableName");
 
             /*
              * We then execute and save
@@ -150,6 +175,11 @@ abstract class DbModel extends Model
                 $statement->bindValue(":$attribute", $this->{$attribute});
             }
 
+            /*
+             * Log user activity
+             */
+            self::logUserActivity("updated into $tableName where $primaryKey is $id");
+
            $statement->execute();
 
         }catch (\PDOException $e){
@@ -199,11 +229,18 @@ abstract class DbModel extends Model
             //DELETE FROM $tableName WHERE id = :id
 
             $statement = self::prepare("DELETE FROM $tableName WHERE $primaryKey = $id");
+
+            /*
+             * Log user activity
+             */
+            self::logUserActivity("deleted a record from $tableName where $primaryKey was $id");
+
             return $statement->execute();
 
         }catch (\PDOException $e){
             //if an error occurs, display flash message
             Application::$app->session->setFlashMessage('failed', 'The record could not be deleted. Error: ' . $e->getMessage());
+            Application::$app->response->redirect('/' . $tableName);
             /*
              * This function returns a bool value since we are not fetching anything
              */
@@ -265,7 +302,7 @@ abstract class DbModel extends Model
      * This function has to be re-usable, whether for one or multiple foreign keys
      */
 
-    public function fetchWithRelation(array $foreignKeys): array //[dep_id, sub_id, year_id]
+    public function fetchWithRelation(array $foreignKeys): array //['staff_id', dep_id, sub_id, year_id]
     {
         $tableName = static::tableName();
         $primaryKey = static::primaryKey();
@@ -273,10 +310,10 @@ abstract class DbModel extends Model
 
         /*
          * We want to select all projects and join the tables that the tableName relates to E.g for projects should look
-         * SELECT *, projects.id FROM projects JOIN
+         * SELECT *, projects.id FROM projects JOIN staff ON staff_id = staff.id
          * departments ON dep_id = departments.id JOIN sub_counties ON sub_id = sub_counties.id
          * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-         * SELECT *, projects.id FROM projects JOIN
+         * SELECT *, projects.id FROM projects JOIN staff ON :staff = staff.id
          * departments ON :departments = departments.id JOIN sub_counties ON :sub_counties = sub_counties.id
          * Above is a pattern we can refactor using array_map and implode
          */
@@ -340,6 +377,53 @@ abstract class DbModel extends Model
 
     }
 
+    public function fetchWithRelationWhere($where, array $foreignKeys) //where will be associative Eg. ['status' => 'approved', 'user_type' => 'staff' ]
+    {
+        /*
+         * We repeat as fetchWithRelation function only with $where assoc array
+         */
+        $tableName = static::tableName();
+        $primaryKey = static::primaryKey();
+        $rel_tables = static::relationTables(); //departments, sub_counties, financial_years (receive the columns)
+
+        /*
+         * SELECT *, staff.id FROM staff JOIN
+         * departments ON :departments = departments.id WHERE status => 'approved' AND user_type => 'staff
+         * Above is a pattern we can refactor using array_map and implode
+         */
+        //array_map(fn($attr) => "$attr ON :$attr = $attr.$primaryKey", $attributes);
+
+        /*
+         * We implode and use JOIN as a separator
+         */
+        $partSql = implode(" JOIN ", array_map(fn($attr) => "$attr ON :$attr = $attr.$primaryKey", $rel_tables));
+        /*
+         * We want to replace eg :department with the respective foreign keys passed above
+         */
+        $attr_replace = array_map(fn($attr) => ":$attr", $rel_tables);
+        $sql = str_replace($attr_replace, $foreignKeys, $partSql);
+
+        //$statement = self::prepare( "SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE $where $sql ");
+
+        /*
+         * For the Where clause
+         * WHERE status = :status AND user_type = :user_type
+         */
+
+        $attributes = array_keys($where);
+        $whereSql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE $whereSql");
+        //Bind the Values
+        foreach ($where as $key => $item) {
+            $statement->bindValue(":$key", $item);
+        }
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+        //Returns the fetched array with all the joined tables
+    }
+
     public function fetchBySearchWithRelation($search, $columns,  $foreignKeys) :array
     {
         $tableName = static::tableName();
@@ -372,6 +456,25 @@ abstract class DbModel extends Model
 
     }
 
+    private static function logUserActivity($description)
+    {
+        $id = (int)$_SESSION['user']['id'];
+        $user_type = $_SESSION['user']['user_type'];
+        $tableName = 'user_activity';
+        $attributes = [
+            'staff_id', 'user_type', 'description'
+        ];
+        $params = array_map(fn($attr) => ":$attr", $attributes);
+
+
+        $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") 
+                    VALUES (".implode(',', $params).")");
+        $statement->bindValue(':staff_id', $id);
+        $statement->bindValue(':user_type', $user_type);
+        $statement->bindValue(':description', $description);
+        $statement->execute();
+
+    }
 
     /*
      * Public function prepare that accepts an sql statement and passes it to pdo instantiated in Application class

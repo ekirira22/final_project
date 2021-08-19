@@ -15,20 +15,34 @@ class SiteController extends Controller
 {
 
 
-    public function guest()
+    public function guest(Request $request)
     {
 
-        $params =[];
-        return $this->render('guest', $params);
+        $projects = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id', 'staff_id']);
+        $search = $request->getSearchVal();
+
+        $results = ProjectModel::fetchBySearchWithRelation($search,['project_name', 'dep_name', 'sub_name'], ['dep_id', 'sub_id', 'year_id', 'staff_id']);
+
+        //var_dump($results);
+
+        $this->setLayout('main');
+
+        return $this->render('home', [
+            'model' => $projects,
+            'search' => [
+                'value' => $search,
+                'results' => $results
+            ]
+        ]);
     }
 
     public function home(Request $request)
     {
 
-        $projects = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id']);
+        $projects = ProjectModel::fetchWithRelation(['dep_id', 'sub_id', 'year_id', 'staff_id']);
         $search = $request->getSearchVal();
 
-        $results = ProjectModel::fetchBySearchWithRelation($search,['project_name', 'dep_name', 'sub_name'], ['dep_id', 'sub_id', 'year_id']);
+        $results = ProjectModel::fetchBySearchWithRelation($search,['project_name', 'dep_name', 'sub_name'], ['dep_id', 'sub_id', 'year_id', 'staff_id']);
 
         //var_dump($results);
 

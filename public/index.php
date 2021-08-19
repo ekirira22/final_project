@@ -87,13 +87,6 @@ $app->router->get('/project_edit', [ProjectController::class, 'edit']);
 $app->router->post('/project_update', [ProjectController::class, 'update']);
 $app->router->get('/project_del', [ProjectController::class, 'delete']);
 
-/*Tasks*/
-$app->router->get('/tasks', [TaskController::class, 'index']);
-$app->router->get('/task_create', [TaskController::class, 'create']);
-$app->router->post('/task_create', [TaskController::class, 'create']);
-$app->router->get('/task_edit', [TaskController::class, 'edit']);
-$app->router->post('/task_update', [TaskController::class, 'update']);
-$app->router->get('/task_del', [TaskController::class, 'delete']);
 
 
 $app->run();

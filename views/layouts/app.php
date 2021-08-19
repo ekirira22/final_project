@@ -37,7 +37,7 @@ $user = Application::$app->user;
                     </a>
                     <div class="dropdown-content">
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec', 'pm'] )): ?>
-                            <a class="nav-link" href="/projects_view">Check Projects</a>
+                            <a class="nav-link" href="/projects_view">Check on Projects</a>
                         <?php endif; ?>
 
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec'] )): ?>
@@ -60,13 +60,6 @@ $user = Application::$app->user;
                             <a class="nav-link" href="/projects">Manage Projects</a>
                         <?php endif; ?>
 
-                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm'] )): ?>
-                            <a class="nav-link" href="/task_create">Add Tasks</a>
-                        <?php endif; ?>
-
-                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm', 'cec'] )): ?>
-                            <a class="nav-link" href="/tasks">Manage Tasks</a>
-                        <?php endif; ?>
                     </div>
                 </div>
             </li>
@@ -138,5 +131,15 @@ $user = Application::$app->user;
 </div>
 <!--/Content-->
 </body>
+<script>
+    function deleteConfig(){
+
+        var del=confirm("Are you sure you want to delete this record?");
+        if (del==false){
+            return del;
+        }
+
+    }
+</script>
 </html>
 

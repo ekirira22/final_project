@@ -48,7 +48,7 @@ $financial_years = $params['model']
                         </td>
                         <td>
                             <a class="btn btn-secondary btn-inline" href="/f_year_edit?id=<?php echo $year['id'] ?>">Edit</a>
-                            <a class="btn btn-danger btn-inline" href="/f_year_del?id=<?php echo $year['id'] ?>">Delete</a>
+                            <a onclick="return deleteConfig()" class="btn btn-danger btn-inline" href="/f_year_del?id=<?php echo $year['id'] ?>">Delete</a>
 
                         </td>
                     </tr>

@@ -72,9 +72,10 @@
         <div>
             <label for="">Status</label>
             <select name="status" class="form-input">
-                <option  <?php if ($staff->status == '') echo ' selected="selected"'; ?>>Select one</option>
-                <option value="active" <?php if ($staff->status == 'active') echo ' selected="selected"'; ?>>Active</option>
+                <option value="" <?php if ($staff->status == '') echo ' selected="selected"'; ?>>Select one</option>
                 <option value="inactive" <?php if ($staff->status == 'inactive') echo ' selected="selected"'; ?>>InActive</option>
+                <option value="active" <?php if ($staff->status == 'active') echo ' selected="selected"'; ?>>Active</option>
+
             </select>
 
             <div class="error">
@@ -84,12 +85,12 @@
 
         <div>
             <label for="">Staff level</label>
-            <select name="user_type" class="form-input" required>
-                <option  <?php if ($staff->status == '') echo ' selected="selected"'; ?>>Select one</option>
+            <select name="user_type" class="form-input">
+                <option value="" <?php if ($staff->status == '') echo ' selected="selected"'; ?>>Select one</option>
                 <option value="admin" <?php if ($staff->user_type == 'admin') echo ' selected="selected"'; ?>>Admin</option>
                 <option value="cec" <?php if ($staff->user_type == 'cec') echo ' selected="selected"'; ?>>Chief Officer</option>
                 <option value="pm" <?php if ($staff->user_type == 'pm') echo ' selected="selected"'; ?>>Project Manager</option>
-                <option value="st" <?php if ($staff->user_type == 'st') echo ' selected="selected"'; ?>>Staff</option>
+                <option value="staff" <?php if ($staff->user_type == 'staff') echo ' selected="selected"'; ?>>County Staff</option>
             </select>
 
             <div class="error">

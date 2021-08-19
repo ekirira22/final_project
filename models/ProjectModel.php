@@ -15,6 +15,7 @@ class ProjectModel extends DbModel
 {
 
     public string $project_name = '';
+    public string $staff_id = '';
     public string $dep_id = '';
     public string $sub_id = '';
     public string $year_id = '';
@@ -35,6 +36,7 @@ class ProjectModel extends DbModel
     {
         return [
             'project_name',
+            'staff_id',
             'dep_id',
             'sub_id',
             'year_id',
@@ -53,6 +55,7 @@ class ProjectModel extends DbModel
 
     public function save(): bool
     {
+        $this->staff_id = (int)$this->staff_id;
         $this->dep_id = (int) $this->dep_id;
         $this->sub_id = (int) $this->sub_id;
         $this->year_id = (int) $this->year_id;
@@ -66,7 +69,8 @@ class ProjectModel extends DbModel
     {
         return [
           'project_name' => [self::RULE_REQUIRED],
-          'dep_id' => [self::RULE_REQUIRED],
+          'staff_id' => [self::RULE_REQUIRED],
+            'dep_id' => [self::RULE_REQUIRED],
           'sub_id' => [self::RULE_REQUIRED],
           'year_id' => [self::RULE_REQUIRED],
           'budget' => [self::RULE_REQUIRED],
@@ -80,7 +84,7 @@ class ProjectModel extends DbModel
     public function relationTables(): array
     {
         return [
-          'departments', 'sub_counties', 'financial_years'
+          'departments', 'sub_counties', 'financial_years', 'staff'
         ];
     }
     public function userType(): string

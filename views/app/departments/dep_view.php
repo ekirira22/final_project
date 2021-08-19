@@ -48,7 +48,7 @@ $departments = $params['model'];
                         </td>
                         <td>
                             <a href="/department_edit?id=<?php echo $department['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
-                            <a onclick="function confirm(){confirm('You wanna?');}" href="/department_del?id=<?php echo $department['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
+                            <a onclick="return deleteConfig()" href="/department_del?id=<?php echo $department['id'] ?>" class="btn btn-danger btn-inline">Delete</a>
 
                         </td>
                     </tr>

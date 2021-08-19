@@ -202,40 +202,9 @@ $searches = $params['search']['results'] ?? false;
                             </tbody>
                         <?php else: ?>
                             <tbody>
-                            <?php foreach ($projects as $project):?>
                                 <tr>
-                                    <td> <?php echo $project['project_name']; ?> </td>
-                                    <td><?php echo $project['dep_name']; ?></td>
-                                    <td><?php echo $project['sub_name'] . " - " . $project['ward']; ?></td>
-                                    <td><?php echo $project['year_name']; ?></td>
-                                    <td>Ksh <?php echo number_format($project['budget']) ?></td>
-                                    <td><?php echo date_format(date_create($project['start_date']), 'd-M-Y'); ?></td>
-                                    <td><?php echo date_format(date_create($project['end_date']), 'd-M-Y');; ?></td>
-                                    <td>
-                                        <?php if ($project['pr_status'] === "pending"): ?>
-                                            <span class="badge badge-primary">
-                                    <?php echo ucfirst($project['pr_status']); ?>
-                                </span>
-                                        <?php elseif($project['pr_status'] === "approved"): ?>
-                                            <span class="badge badge-warning">
-                                    <?php echo  ucfirst($project['pr_status']); ?>
-                                </span>
-                                        <?php elseif($project['pr_status'] === "ongoing"): ?>
-                                            <span class="badge badge-info">
-                                    <?php echo ucfirst($project['pr_status']); ?>
-                                </span>
-                                        <?php elseif($project['pr_status'] === "complete"): ?>
-                                            <span class="badge badge-success">
-                                    <?php echo ucfirst($project['pr_status']); ?>
-                                </span>
-                                        <?php else: ?>
-                                            <span class="badge badge-danger">
-                                    <?php echo ucfirst($project['pr_status']); ?>
-                                </span>
-                                        <?php endif; ?>
-                                    </td>
+                                    <td colspan="">No record Found</td>
                                 </tr>
-                            <?php endforeach; ?>
                             </tbody>
                         <?php endif; ?>
 
@@ -247,3 +216,50 @@ $searches = $params['search']['results'] ?? false;
     </div>
     <!-- /Table -->
 </div>
+
+
+
+
+
+
+
+
+
+
+
+<!--<tbody>-->
+<?php //foreach ($projects as $project):?>
+<!--    <tr>-->
+<!--        <td> --><?php //echo $project['project_name']; ?><!-- </td>-->
+<!--        <td>--><?php //echo $project['dep_name']; ?><!--</td>-->
+<!--        <td>--><?php //echo $project['sub_name'] . " - " . $project['ward']; ?><!--</td>-->
+<!--        <td>--><?php //echo $project['year_name']; ?><!--</td>-->
+<!--        <td>Ksh --><?php //echo number_format($project['budget']) ?><!--</td>-->
+<!--        <td>--><?php //echo date_format(date_create($project['start_date']), 'd-M-Y'); ?><!--</td>-->
+<!--        <td>--><?php //echo date_format(date_create($project['end_date']), 'd-M-Y');; ?><!--</td>-->
+<!--        <td>-->
+<!--            --><?php //if ($project['pr_status'] === "pending"): ?>
+<!--                <span class="badge badge-primary">-->
+<!--                                    --><?php //echo ucfirst($project['pr_status']); ?>
+<!--                                </span>-->
+<!--            --><?php //elseif($project['pr_status'] === "approved"): ?>
+<!--                <span class="badge badge-warning">-->
+<!--                                    --><?php //echo  ucfirst($project['pr_status']); ?>
+<!--                                </span>-->
+<!--            --><?php //elseif($project['pr_status'] === "ongoing"): ?>
+<!--                <span class="badge badge-info">-->
+<!--                                    --><?php //echo ucfirst($project['pr_status']); ?>
+<!--                                </span>-->
+<!--            --><?php //elseif($project['pr_status'] === "complete"): ?>
+<!--                <span class="badge badge-success">-->
+<!--                                    --><?php //echo ucfirst($project['pr_status']); ?>
+<!--                                </span>-->
+<!--            --><?php //else: ?>
+<!--                <span class="badge badge-danger">-->
+<!--                                    --><?php //echo ucfirst($project['pr_status']); ?>
+<!--                                </span>-->
+<!--            --><?php //endif; ?>
+<!--        </td>-->
+<!--    </tr>-->
+<?php //endforeach; ?>
+<!--</tbody>-->

@@ -101,6 +101,8 @@ $departments = $params['departmentModel'] ?? [];
                 <option value="admin">Admin</option>
                 <option value="cec">Chief Officer</option>
                 <option value="pm">Project Manager</option>
+                <option value="staff">County Staff</option>
+
             </select>
 
             <div class="error">

@@ -28,6 +28,7 @@ $projects = $params['model'];
                 <thead>
                     <tr>
                         <th>Project Name</th>
+                        <th>In Charge</th>
                         <th>Department</th>
                         <th>SubCounty</th>
                         <th>F.Year</th>
@@ -42,6 +43,7 @@ $projects = $params['model'];
                     <?php foreach ( $projects as $project):?>
                         <tr>
                             <td> <?php echo $project['project_name']; ?> </td>
+                            <td> <?php echo $project['names']; ?> </td>
                             <td><?php echo $project['dep_name']; ?></td>
                             <td><?php echo $project['sub_name']; ?></td>
                             <td><?php echo $project['year_name']; ?></td>
@@ -75,7 +77,7 @@ $projects = $params['model'];
                                 <?php if($project['pr_status'] === "pending" || $project['pr_status'] === "delayed"): ?>
                                 <div style="display: flex; justify-content: space-evenly">
                                     <a href="/project_edit?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
-                                    <a href="/project_del?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-danger">Delete</a>
+                                    <a onclick="return deleteConfig()" href="/project_del?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-danger">Delete</a>
                                 </div>
                                 <?php endif;?>
                             </td>

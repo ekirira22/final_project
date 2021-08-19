@@ -15,7 +15,7 @@ class Application
     public Response $response;
     public Controller $controller;
     public Session $session;
-    public ?DbModel $user; //User may not exist, user can be guest
+    public ?UserModel $user; //User may not exist, user can be guest
     public Database $db;
 
 
@@ -70,7 +70,7 @@ class Application
 //    {
 //        $this->controller = $controller;
 //    }
-    public function login(DbModel $user)
+    public function login(UserModel $user)
     {
         $this->user = $user;
         $primaryKey = $user->primaryKey();
