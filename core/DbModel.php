@@ -114,10 +114,6 @@ abstract class DbModel extends Model
             {
                 $statement->bindValue(":$attribute", $this->{$attribute});
             }
-            /*
-             * Log user activity
-             */
-            self::logUserActivity("inserted a record into $tableName");
 
             /*
              * We then execute and save
@@ -175,11 +171,6 @@ abstract class DbModel extends Model
                 $statement->bindValue(":$attribute", $this->{$attribute});
             }
 
-            /*
-             * Log user activity
-             */
-            self::logUserActivity("updated into $tableName where $primaryKey is $id");
-
            $statement->execute();
 
         }catch (\PDOException $e){
@@ -230,10 +221,6 @@ abstract class DbModel extends Model
 
             $statement = self::prepare("DELETE FROM $tableName WHERE $primaryKey = $id");
 
-            /*
-             * Log user activity
-             */
-            self::logUserActivity("deleted a record from $tableName where $primaryKey was $id");
 
             return $statement->execute();
 
@@ -456,7 +443,7 @@ abstract class DbModel extends Model
 
     }
 
-    private static function logUserActivity($description)
+    public static function logUserActivity($description)
     {
         $id = (int)$_SESSION['user']['id'];
         $user_type = $_SESSION['user']['user_type'];
@@ -469,6 +456,7 @@ abstract class DbModel extends Model
 
         $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") 
                     VALUES (".implode(',', $params).")");
+
         $statement->bindValue(':staff_id', $id);
         $statement->bindValue(':user_type', $user_type);
         $statement->bindValue(':description', $description);

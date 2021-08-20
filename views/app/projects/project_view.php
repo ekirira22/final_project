@@ -3,7 +3,14 @@
 
 use app\core\Application;
 
+//if in the user_type that is passed to the session has no value like admin or pm, do this
+if(!in_array(Application::$app->user->user_type, ['admin', 'pm']))
+{
+    Application::$app->response->redirect('invalid-path');
+}
+
 $projects = $params['model'];
+//Returns an instance of project that is passed via the $params params to the router
 
 ?>
 
@@ -74,11 +81,31 @@ $projects = $params['model'];
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if($project['pr_status'] === "pending" || $project['pr_status'] === "delayed"): ?>
-                                <div style="display: flex; justify-content: space-evenly">
-                                    <a href="/project_edit?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
-                                    <a onclick="return deleteConfig()" href="/project_del?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-danger">Delete</a>
-                                </div>
+
+<!--                                Here, we implement accountability for each individual in the government, the cec cannot-->
+<!--                                approve and delay projects at will, if he/she happens to approve or decline by mistake, there-->
+<!--                                has to be another party involved, either the pm or the chief administrator-->
+<!--                                We, check if in the user_type in UserModel, a value like admin exists, if so-->
+<!--                                they can edit or delete the projects-->
+
+                                <?php if(in_array(Application::$app->user->user_type, ['admin'] )): ?>
+                                    <div style="display: flex; justify-content: space-evenly">
+                                        <a href="/project_edit?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
+                                        <a onclick="return deleteConfig()" href="/project_del?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-danger">Delete</a>
+                                    </div>
+
+                                <?php else:?>
+
+<!--                                If they are not admin, they can only be able to edit or delete projects which have-->
+<!--                                NOT BEEN approved yet-->
+
+                                    <?php if($project['pr_status'] === "pending" || $project['pr_status'] === "delayed"):?>
+                                    <div style="display: flex; justify-content: space-evenly">
+                                        <a href="/project_edit?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>
+                                        <a onclick="return deleteConfig()" href="/project_del?id=<?php echo $project['id'] ?>" class="btn btn-secondary btn-danger">Delete</a>
+                                    </div>
+                                    <?php endif;?>
+
                                 <?php endif;?>
                             </td>
 

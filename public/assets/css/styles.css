@@ -395,6 +395,8 @@ td {
 
 .table-responsive {
     overflow-x: auto;
+    overflow-y: auto;
+
 }
 
 tbody tr:nth-child(even) {

@@ -8,6 +8,7 @@ namespace app\controllers;
  *Use imports the required classes in this controller
  */
 use app\core\Application;
+use app\core\DbModel;
 use app\core\Request;
 use app\models\DepartmentModel;
 use app\models\FinancialModel;
@@ -68,6 +69,11 @@ class ProjectController extends Controller
         {
             if($projects->validate() && $projects->save())
             {
+                /*
+                 * First We log the Users' activity using the static class in DbModel
+                 */
+                DbModel::logUserActivity('created a new project - ' . $projects->project_name);
+
                 /*
                  * If validate passes i.e returns true and save passes i.e also returns true
                  * set flash message to success and redirect the user to the /projects route
@@ -144,7 +150,9 @@ class ProjectController extends Controller
             'pr_status' => 'pending',
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
-            'remarks' => $data['remarks']
+            'remarks' => $data['remarks'],
+            'reasons' => $data['reasons']
+
         ]);
 
 //        echo '<pre>';
@@ -161,6 +169,12 @@ class ProjectController extends Controller
 
         if($project->update($request->getReqId()))
         {
+
+            /*
+             * First We log the Users' activity using the static class in DbModel
+             */
+            DbModel::logUserActivity('updated a project - ' . $project->project_name);
+
             /*
              * If this function runs it means validation has passed and now we can update the project as per the id gotten from get
              * and display success message and return use back to projects page
@@ -174,8 +188,16 @@ class ProjectController extends Controller
     public function delete(Request $request)
     {
         $projects = new ProjectModel();
+        /* Gets project info where id is the id in get */
+        $project_info = ProjectModel::findById($request->getReqId());
+        /*
+         * First We log the Users' activity using the static class in DbModel before delete is executed
+         */
+        DbModel::logUserActivity('deleted a project - ' . $project_info->project_name);
+
         /*Deletes staff by passing the id which is gotten using the get method to the deleteById method
         inside DbModel class*/
+
         $delete = $projects->deleteById($request->getReqId());
         if ($delete):
             /*
@@ -187,6 +209,121 @@ class ProjectController extends Controller
             Application::$app->response->redirect('/projects');
         endif;
         exit;
+
+    }
+
+    /* END OF MAIN CRUD FUNCTIONALITY*/
+
+    /* PROJECT APPROVAL, TRACKING AND PROJECT COMPLETION */
+
+    public function pending()
+    {
+        /*
+         * This function should basically return all the PENDING AND APPROVED projects to the chief officer (CEC)
+         * For either approval or denial. Approved projects
+         * Once projects are approved the cannot be
+         */
+        $this->setLayout('app');
+        $projects = ProjectModel::fetchWithRelationWhere(['pr_status' => 'pending'], ['dep_id', 'sub_id', 'year_id', 'staff_id']);
+
+
+        /*
+         * Renders  a view with all projects whose status is pending
+         */
+        return $this->render('../app/projects/project_pending', [
+           'model' => $projects
+        ]);
+    }
+
+    public function approved(Request $request)
+    {
+        //get all projects with Relation where id is the id that was posted in get body
+        $id = $request->getReqId();
+        $approved_pr = ProjectModel::fetchByIdWithRelation($id, ['dep_id', 'sub_id', 'year_id', 'staff_id']);
+
+        //new instance of model to get table properties
+
+         $data = new ProjectModel();
+
+        //load the data and only change status to approved, the rest remain constant
+        $data->loadData([
+            'project_name' => $approved_pr->project_name,
+            'staff_id' => $approved_pr->staff_id,
+            'dep_id' => $approved_pr->dep_id,
+            'sub_id' => $approved_pr->sub_id,
+            'year_id' => $approved_pr->year_id,
+            'budget' => $approved_pr->budget,
+            'pr_status' => 'approved',
+            'start_date' => $approved_pr->start_date,
+            'end_date' => $approved_pr->end_date,
+            'remarks' => $approved_pr->remarks,
+            'reasons' => ''
+        ]);
+
+        //no need for validation since data is taken and returned to database with
+        //status as approved
+        $data->update($id);
+
+        if($data->update($id))
+        {
+            /*
+             * First We log the Users' activity using the static class in DbModel
+             */
+            DbModel::logUserActivity('approved a project - ' . $approved_pr->project_name);
+
+            /*
+             * If this function runs it means status was changed to approved
+             */
+            Application::$app->session->setFlashMessage('success', 'Project has been Approved!!');
+            Application::$app->response->redirect('/projects_pending');
+        }
+
+    }
+
+    public function delay(Request $request)
+    {
+        /*
+         * We will basically do everything as above only with a delayed project in mind
+         */
+        //get all projects with Relation where id is the id that was posted in get body
+        $id = $request->getReqId();
+        $delayed_pr = ProjectModel::fetchByIdWithRelation($id, ['dep_id', 'sub_id', 'year_id', 'staff_id']);
+        //new instance of model to get table properties
+
+        $data = new ProjectModel();
+
+        //load the data and only change status to approved, the rest remain constant
+        $data->loadData([
+            'project_name' => $delayed_pr->project_name,
+            'staff_id' => $delayed_pr->staff_id,
+            'dep_id' => $delayed_pr->dep_id,
+            'sub_id' => $delayed_pr->sub_id,
+            'year_id' => $delayed_pr->year_id,
+            'budget' => $delayed_pr->budget,
+            'pr_status' => 'delayed',
+            'start_date' => $delayed_pr->start_date,
+            'end_date' => $delayed_pr->end_date,
+            'remarks' => $delayed_pr->remarks,
+            'reasons' => ''
+        ]);
+
+        //no need for validation since data is taken and returned to database with
+        //status as approved
+        $data->update($id);
+
+        if($data->update($id))
+        {
+            /*
+             * First We log the Users' activity using the static class in DbModel
+             */
+            DbModel::logUserActivity('delayed a project - ' . $delayed_pr->project_name);
+
+            /*
+             * If this function runs it means status was changed to approved
+             */
+            Application::$app->session->setFlashMessage('failed', 'Project has been Delayed!!');
+            Application::$app->response->redirect('/projects_pending');
+        }
 
     }
 }

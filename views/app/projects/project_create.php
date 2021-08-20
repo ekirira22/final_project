@@ -105,12 +105,18 @@ $staffs = $params['staffs']
             <label for="">End date</label>
             <input type="date" class="form-input" name="end_date" value="<?php echo $projects->end_date ?? '' ?>"/>
         </div>
+
         <div class="error">
             <small><?php echo $projects->getErrors('end_date') ?? "" ?></small>
         </div>
+
         <div>
             <label for="">Remarks</label>
             <textarea name="remarks" class="form-input" value="<?php echo $projects->remarks ?? ''  ?>"></textarea>
+        </div>
+
+        <div class="error">
+            <small><?php echo $projects->getErrors('remarks') ?? "" ?></small>
         </div>
 
 

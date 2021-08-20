@@ -109,6 +109,13 @@ $project = $params['model']['project']  ?? [];
             </label>
         </div>
 
+        <div>
+            <label for="">Reasons for Re-Approval / Delay</label>
+            <label>
+                <textarea name="reasons" class="form-input"><?php echo $project->reasons; ?></textarea>
+            </label>
+        </div>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

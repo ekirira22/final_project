@@ -87,6 +87,14 @@ $app->router->get('/project_edit', [ProjectController::class, 'edit']);
 $app->router->post('/project_update', [ProjectController::class, 'update']);
 $app->router->get('/project_del', [ProjectController::class, 'delete']);
 
+/* CEC Tasks*/
+$app->router->get('/projects_pending', [ProjectController::class, 'pending']);
+$app->router->get('/projects_approve', [ProjectController::class, 'approved']);
+$app->router->get('/projects_delay', [ProjectController::class, 'delay']);
+
+
+
+
 
 
 $app->run();

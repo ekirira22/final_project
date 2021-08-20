@@ -6,6 +6,7 @@ $searches = $params['search']['results'] ?? false;
 //echo '<pre>';
 //var_dump($searches);
 //echo '</pre>'
+
 ?>
 <div>
     <div>
@@ -203,7 +204,7 @@ $searches = $params['search']['results'] ?? false;
                         <?php else: ?>
                             <tbody>
                                 <tr>
-                                    <td colspan="">No record Found</td>
+                                    <td colspan="">No Projects Found </td>
                                 </tr>
                             </tbody>
                         <?php endif; ?>

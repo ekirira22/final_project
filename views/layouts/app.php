@@ -36,12 +36,12 @@ $user = Application::$app->user;
                         <img src="assets/icons/workflow.svg" alt="" style="width: 15px; height: 15px;"> Workflow
                     </a>
                     <div class="dropdown-content">
-                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec', 'pm'] )): ?>
-                            <a class="nav-link" href="/projects_view">Check on Projects</a>
+                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec', 'pm', 'staff'] )): ?>
+                            <a class="nav-link" href="/projects_view">Track Projects</a>
                         <?php endif; ?>
 
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec'] )): ?>
-                            <a class="nav-link" href="/projects_check">Approve/Decline Projects</a>
+                            <a class="nav-link" href="/projects_pending">Approve/Decline Projects</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -56,24 +56,32 @@ $user = Application::$app->user;
                             <a class="nav-link" href="/project_create">Add projects</a>
                         <?php endif; ?>
 
-                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm', 'cec'] )): ?>
+                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm'] )): ?>
                             <a class="nav-link" href="/projects">Manage Projects</a>
                         <?php endif; ?>
 
                     </div>
                 </div>
             </li>
-            <?php if(in_array(Application::$app->user->user_type, ['admin'])):?>
+            <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec', 'pm'])):?>
             <li class="nav-list">
                     <div class="dropdown">
                         <a class="drop-prop" href="#">
                             <img src="assets/icons/settings.svg" alt="" style="width: 15px; height: 15px;"> Settings
                         </a>
                         <div class="dropdown-content">
-                            <a class="nav-link" href="/financial_years">Financial year</a>
-                            <a class="nav-link" href="/departments">Departments</a>
-                            <a class="nav-link" href="/sub_counties">Sub Counties</a>
-                            <a class="nav-link" href="/staff">Staffs</a>
+
+                            <?php if(in_array(Application::$app->user->user_type, ['admin'])):?>
+                                <a class="nav-link" href="/financial_years">Financial year</a>
+                                <a class="nav-link" href="/departments">Departments</a>
+                                <a class="nav-link" href="/sub_counties">Sub Counties</a>
+                                <a class="nav-link" href="/staff">Staffs</a>
+                                <hr>
+                                <a class="nav-link" href="/user_activity">User Activity</a>
+                            <?php endif;?>
+                            <a class="nav-link" href="/reports">Reports</a>
+
+
                         </div>
                     </div>
             </li>
@@ -84,6 +92,7 @@ $user = Application::$app->user;
                         <img src="assets/icons/projects.svg" alt="" style="width: 15px; height: 15px;"> Profile
                     </a>
                     <div class="dropdown-content">
+                        <a class="nav-link" href="/staff_edit_profile">Edit Profile</a>
                         <a class="nav-link" href="/staff_change_password">Change Password</a>
                         <a class="nav-link" href="/logout">Log out</a>
                     </div>
@@ -132,13 +141,28 @@ $user = Application::$app->user;
 <!--/Content-->
 </body>
 <script>
+    // For deletion buttons
     function deleteConfig(){
 
-        var del=confirm("Are you sure you want to delete this record?");
+        var del=confirm("Are you sure you want to delete this record? This action cannot be reversed");
         if (del==false){
             return del;
         }
 
+    }
+
+    //For approval and delay buttons
+    function approve(){
+        var del=confirm("Approve this project? This action cannot be reversed");
+        if (del==false){
+            return del;
+        }
+    }
+    function delay(){
+        var del=confirm("Delay this project? This action cannot be reversed");
+        if (del==false){
+            return del;
+        }
     }
 </script>
 </html>

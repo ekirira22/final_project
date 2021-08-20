@@ -88,13 +88,24 @@ class Application
          * user and specify. This will be implemented in constructor
          */
 
+        /*
+         * Log logged in user
+         */
+        DbModel::logUserActivity('logged into the system');
+
     }
 
     public function logout()
     {
+        /*
+         * Log logged out user
+         */
+        DbModel::logUserActivity('logged out of the system');
         $this->user = null;
         $this->session->remove('user');
         $this->response->redirect('/');
+
+
     }
 
 

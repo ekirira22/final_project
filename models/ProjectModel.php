@@ -24,7 +24,7 @@ class ProjectModel extends DbModel
     public string $start_date = '';
     public string $end_date = '';
     public string $remarks = '';
-
+    public string $reasons = ' ';
 
 
     public function tableName(): string
@@ -44,7 +44,8 @@ class ProjectModel extends DbModel
             'pr_status',
             'start_date',
             'end_date',
-            'remarks'
+            'remarks',
+            'reasons'
         ];
     }
 
@@ -76,7 +77,9 @@ class ProjectModel extends DbModel
           'budget' => [self::RULE_REQUIRED],
           'pr_status' => [self::RULE_REQUIRED],
           'start_date' => [self::RULE_REQUIRED, [self::RULE_VALID_START_DATE, 'start_date' => \date("Y-m-d") ]],
-            'end_date' => [self::RULE_REQUIRED, [self::RULE_VALID_END_DATE, 'end_date' => 'start_date']]
+            'end_date' => [self::RULE_REQUIRED, [self::RULE_VALID_END_DATE, 'end_date' => 'start_date']],
+            'remarks' => [self::RULE_REQUIRED],
+
 
         ];
     }
