@@ -297,10 +297,10 @@ abstract class DbModel extends Model
 
         /*
          * We want to select all projects and join the tables that the tableName relates to E.g for projects should look
-         * SELECT *, projects.id FROM projects JOIN staff ON staff_id = staff.id
+         * SELECT *, projects.id FROM projects JOIN staff ON staff_id = staff.id JOIN
          * departments ON dep_id = departments.id JOIN sub_counties ON sub_id = sub_counties.id
          * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-         * SELECT *, projects.id FROM projects JOIN staff ON :staff = staff.id
+         * SELECT *, projects.id FROM projects JOIN staff ON :staff = staff.id JOIN
          * departments ON :departments = departments.id JOIN sub_counties ON :sub_counties = sub_counties.id
          * Above is a pattern we can refactor using array_map and implode
          */
@@ -316,7 +316,7 @@ abstract class DbModel extends Model
         $attr_replace = array_map(fn($attr) => ":$attr", $rel_tables);
         $sql = str_replace($attr_replace, $foreignKeys, $partSql);
 
-        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql");
+        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql ORDER BY $tableName.id DESC");
 
         $statement->execute();
 
@@ -435,13 +435,47 @@ abstract class DbModel extends Model
 
         $sql = str_replace($attr_replace, $foreignKeys, $partSql);
 
-        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE CONCAT($colums) LIKE '%$search%'");
+        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE CONCAT($colums) LIKE '%$search%' ORDER BY $tableName.id DESC");
 
         $statement->execute();
 
         return $statement->fetchAll();
 
     }
+
+    public function fetchByFilterWithRelation($filter1, $filter2, $where, $foreignKeys) //$where E.g ['staff_id' => '81']
+    {
+        $tableName = static::tableName();
+        $rel_tables = static::relationTables();
+        $primaryKey = static::primaryKey();
+
+        /*
+         * For the Filtering of data it will look something like this
+         * SELECT *, user_activity.id FROM user_activity JOIN
+         * staff ON staff_id = staff.id JOIN departments ON dep_id = departments.id BETWEEN '$filter1' AND '$filter2'
+         *
+         */
+        $partSql = implode(" JOIN ", array_map(fn($attr) => "$attr ON :$attr = $attr.$primaryKey", $rel_tables));
+        /*
+         * Bind the values by replacing
+         */
+        $attr_replace = array_map(fn($attr) => ":$attr", $rel_tables);
+
+        //since we will need to reuse this class, we will use array keys and value to get where
+        //we get the array_keys and values for the first elements [0]
+        $col = array_keys($where); $val = array_values($where);
+
+        $sql = str_replace($attr_replace, $foreignKeys, $partSql);
+
+        //for the statement
+        $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE $tableName.created_at
+                                        BETWEEN '$filter1' AND '$filter2' AND $tableName.$col[0] = '$val[0]'");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
 
     public static function logUserActivity($description)
     {

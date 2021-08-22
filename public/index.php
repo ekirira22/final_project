@@ -35,7 +35,9 @@ $app = new Application(dirname(__DIR__), $config);
 /*Main Site Routes*/
 $app->router->get('/', [SiteController::class, 'guest']);
 $app->router->get('/home', [SiteController::class, 'home']);
-$app->router->get('/contact', [SiteController::class, 'contact']);
+$app->router->get('/user_activity', [SiteController::class, 'activity']);
+$app->router->get('/reports', [SiteController::class, 'reports']);
+
 
 /* Auth Routes*/
 /*Login and Logout*/
@@ -50,8 +52,6 @@ $app->router->post('/department_create', [DepartmentController::class, 'create']
 $app->router->get('/department_edit', [DepartmentController::class, 'edit']);
 $app->router->post('/department_edit', [DepartmentController::class, 'edit']);
 $app->router->get('/department_del', [DepartmentController::class, 'delete']);
-
-
 
 /*County Staff*/
 $app->router->get('/staff', [AuthController::class, 'index']);
@@ -91,6 +91,18 @@ $app->router->get('/project_del', [ProjectController::class, 'delete']);
 $app->router->get('/projects_pending', [ProjectController::class, 'pending']);
 $app->router->get('/projects_approve', [ProjectController::class, 'approved']);
 $app->router->get('/projects_delay', [ProjectController::class, 'delay']);
+
+/* PM and staff tasks */
+$app->router->get('/projects_start', [ProjectController::class, 'projects_start']);
+$app->router->get('/projects_manage', [ProjectController::class, 'projects_manage']);
+$app->router->get('/projects_showcase', [ProjectController::class, 'projects_showcase']);
+$app->router->post('/projects_showcase', [ProjectController::class, 'projects_showcase']);
+
+$app->router->get('/projects_complete', [ProjectController::class, 'projects_complete']);
+
+
+
+
 
 
 

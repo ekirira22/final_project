@@ -1,8 +1,11 @@
 <?php
 /** Project showcase */
-$project = $params['model']['project'];
+use app\core\Application;
+
+$project = $params['model']['projects'];
 $tasks = $params['model']['tasks'];
-$total_task_budget = $params['model']['tasks_budget'];
+
+
 ?>
 
 <div class="pb-16">
@@ -53,9 +56,7 @@ $total_task_budget = $params['model']['tasks_budget'];
                 <h2 class="primary-font grey">
                     Tasks - <?php echo count($tasks) ?>
                 </h2>
-                <h3 class="secondary-font secondary">
-                    Total task budget - Ksh <?php echo number_format($total_task_budget) ?>
-                </h3>
+
             </div>
 
 
@@ -65,14 +66,10 @@ $total_task_budget = $params['model']['tasks_budget'];
                         <?php foreach ($tasks as $task): ?>
                             <li class="card py-8 secondary-font">
                                 <h4 class="secondary">Task name: <?php echo $task['task_name'] ?></h4>
-                                <h5>Description: <?php echo $task['task_desc'] ?></h5>
-                                <h5>Budget: Ksh <?php echo number_format($task['task_budget']) ?></h5>
+                                <h5>Description: <?php echo $task['description'] ?></h5>
+                                <h5>Budget: Ksh <?php echo number_format($task['budget']) ?></h5>
 
-                                <div class="pt-16">
-                                    <h4 class="secondary">
-                                        Status: <?php echo ucfirst($task['status']) ?>
-                                    </h4>
-                                </div>
+
                             </li>
                         <?php endforeach; ?>
                     </ol>
@@ -88,11 +85,53 @@ $total_task_budget = $params['model']['tasks_budget'];
 
             <div class="py-24">
                 <h3 class="primary-font grey">
-                    Budget Remaining: Ksh <?php echo number_format($project->budget - $total_task_budget )?>
+                    Budget Remaining: Ksh <?php echo $project->budget ?>
                 </h3>
             </div>
         </div>
     </div>
+
+<!--    We want to display this isn such a way that only the admin and staff in charge of the project can add tasks-->
+
+    <?php if (in_array(Application::$app->user->user_type, ['staff', 'admin'])):?>
+        <?php if ($project->budget !=0 ): ?>
+            <hr>
+            <form action="" method="post">
+                <div class="info">
+                    <h2 class="primary-font grey" >Finance and Task options</h2>
+                    <div>
+                        <label for="">Task Name</label>
+                        <input type="text" class="form-input" name="task_name"/>
+
+                    </div>
+                    <div style="display: none">
+                        <label for="">Project ID</label>
+                        <input type="text" class="form-input" name="proj_id" value="<?php echo $project->id ;?>"/>
+
+                    </div>
+                    <div>
+                        <label for="">Task Description</label>
+                        <input type="text" class="form-input" name="description"/>
+
+                    </div>
+
+                    <div>
+                        <label for="">Budget</label>
+                        <input type="number" class="form-input" name="budget"/>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </form>
+        <?php else: ?>
+<!--            Meaning they have permission to this form but have no money, i.e budget is zero-->
+            <div class="info">
+                <h2 class="primary-font grey" >Account Balance is Ksh 0</h2>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
 </div>
 
 

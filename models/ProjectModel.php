@@ -56,11 +56,7 @@ class ProjectModel extends DbModel
 
     public function save(): bool
     {
-        $this->staff_id = (int)$this->staff_id;
-        $this->dep_id = (int) $this->dep_id;
-        $this->sub_id = (int) $this->sub_id;
-        $this->year_id = (int) $this->year_id;
-        $this->budget = (int) $this->budget;
+
         return parent::save();
 
     }

@@ -127,6 +127,9 @@ ul {
 .nav-list {
     float: left;
 }
+.a-disabled{
+    pointer-events: none;
+}
 
 li a {
     display: inline-block;
@@ -305,9 +308,7 @@ li.dropdown {
     padding: 15px;
 }
 
-.card-header {
 
-}
 
 .card-heading {
     font-size: 24px;
@@ -316,7 +317,8 @@ li.dropdown {
 }
 
 .card-content {
-
+    display: grid;
+    grid-gap: 10px;
 }
 
 .badge {
@@ -473,6 +475,11 @@ label {
 .btn-danger {
     background-color: #cb1212;
     color: #ffffff;
+}
+.btn-info
+{
+    color: #ffffff;
+    background-color: cyan;
 }
 
 .alert {

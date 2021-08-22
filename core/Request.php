@@ -21,7 +21,7 @@ class Request
 
     public function getReqId()
     {
-        return $_GET['id'];
+        return $_GET['id'] ?? false;
     }
 
     public function getBody()
@@ -46,6 +46,11 @@ class Request
     public function getSearchVal()
     {
         return $_GET['search'] ?? false;
+    }
+
+    public function getFilteredValue($filter)
+    {
+        return $_GET[$filter] ?? null;
     }
 
 

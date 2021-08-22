@@ -23,31 +23,12 @@
     <ul class="left-nav">
         <li class="nav-list">
             <a class="nav-link" href="/">
-                Home
+                <span class="light">The Nyeri County Project Management System</span>
             </a>
         </li>
-        <li class="nav-list">
-            <a class="nav-link" href="/about">
-                About Us
-            </a>
-        </li>
-        <li class="nav-list">
-            <a class="nav-link" href="/contact">
-                Contact Us
-            </a>
-        </li>
-<!--        <li class="nav-list">-->
-<!--            <div class="dropdown">-->
-<!--                <a class="drop-prop" href="#">-->
-<!--                    Our Departments-->
-<!--                </a>-->
-<!--                <div class="dropdown-content">-->
-<!--                    <a class="nav-link" href="/projects_view">Governor's office</a>-->
-<!--                    <a class="nav-link" href="/projects_view">Finance</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </li>-->
-        <div  style="margin-left: 50%; display: flex; justify-content: space-evenly" >
+
+
+        <div  style="margin-left: 80%; display: flex; justify-content: space-evenly" >
             <li class="nav-list">
                 <a class="btn-danger" href="/login">
                     Login As Staff

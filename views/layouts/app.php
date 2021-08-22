@@ -19,6 +19,8 @@ $user = Application::$app->user;
 
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!--    Scripts-->
+    <script rel="script" src="assets/js/scripts.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -36,8 +38,12 @@ $user = Application::$app->user;
                         <img src="assets/icons/workflow.svg" alt="" style="width: 15px; height: 15px;"> Workflow
                     </a>
                     <div class="dropdown-content">
+                        <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm'] )): ?>
+                            <a class="nav-link" href="/projects_start">Start a Project</a>
+                        <?php endif; ?>
+
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec', 'pm', 'staff'] )): ?>
-                            <a class="nav-link" href="/projects_view">Track Projects</a>
+                            <a class="nav-link" href="/projects_manage">Manage Projects</a>
                         <?php endif; ?>
 
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'cec'] )): ?>
@@ -52,12 +58,14 @@ $user = Application::$app->user;
                         <img src="assets/icons/layers.svg" alt="" style="width: 15px; height: 15px;"> Projects & Tasks
                     </a>
                     <div class="dropdown-content">
+
+
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm'] )): ?>
                             <a class="nav-link" href="/project_create">Add projects</a>
                         <?php endif; ?>
 
                         <?php if(in_array(Application::$app->user->user_type, ['admin', 'pm'] )): ?>
-                            <a class="nav-link" href="/projects">Manage Projects</a>
+                            <a class="nav-link" href="/projects">Edit Projects</a>
                         <?php endif; ?>
 
                     </div>
@@ -92,14 +100,14 @@ $user = Application::$app->user;
                         <img src="assets/icons/projects.svg" alt="" style="width: 15px; height: 15px;"> Profile
                     </a>
                     <div class="dropdown-content">
-                        <a class="nav-link" href="/staff_edit_profile">Edit Profile</a>
+                        <a class="nav-link" href="/staff_edit?id=<?php echo $_SESSION['user']['id'];?>">Edit Profile</a>
                         <a class="nav-link" href="/staff_change_password">Change Password</a>
                         <a class="nav-link" href="/logout">Log out</a>
                     </div>
                 </div>
             </li>
 
-                <li class="nav-list" style="margin-left: 800px">
+                <li class="nav-list" style="margin-left: 80%">
                     <a class="nav-link">
                         Welcome <?php echo $user->names;?>
                     </a>
@@ -140,30 +148,7 @@ $user = Application::$app->user;
 </div>
 <!--/Content-->
 </body>
-<script>
-    // For deletion buttons
-    function deleteConfig(){
 
-        var del=confirm("Are you sure you want to delete this record? This action cannot be reversed");
-        if (del==false){
-            return del;
-        }
 
-    }
-
-    //For approval and delay buttons
-    function approve(){
-        var del=confirm("Approve this project? This action cannot be reversed");
-        if (del==false){
-            return del;
-        }
-    }
-    function delay(){
-        var del=confirm("Delay this project? This action cannot be reversed");
-        if (del==false){
-            return del;
-        }
-    }
-</script>
 </html>
 

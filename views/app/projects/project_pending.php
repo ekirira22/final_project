@@ -35,6 +35,7 @@ $projects = $params['model'];
                     <th>Start</th>
                     <th>End</th>
                     <th>Status</th>
+                    <th>Reasons</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -73,6 +74,7 @@ $projects = $params['model'];
                                 </span>
                             <?php endif; ?>
                         </td>
+                        <td><?php echo $project['reasons']; ?></td>
                         <td>
                             <div style="display: flex; justify-content: space-evenly">
                                 <a onclick="return approve()" href="/projects_approve?id=<?php echo $project['id'] ?>" class="btn btn-primary btn-inline">Approve</a>
