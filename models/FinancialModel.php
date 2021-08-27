@@ -16,11 +16,13 @@ class FinancialModel extends DbModel
     public string $year_name = '';
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'financial_years';
     }
 
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -28,6 +30,7 @@ class FinancialModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
@@ -38,6 +41,8 @@ class FinancialModel extends DbModel
         // TODO: Implement userType() method.
     }
 
+
+    //returns the rules that this class is supposed to follow
     public function rules(): array
     {
         return [

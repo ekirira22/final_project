@@ -14,6 +14,9 @@ use app\core\DbModel;
 class ProjectModel extends DbModel
 {
 
+    /*
+     * All projects start as pending by default
+     */
     public string $project_name = '';
     public string $staff_id = '';
     public string $dep_id = '';
@@ -27,11 +30,14 @@ class ProjectModel extends DbModel
     public string $reasons = ' ';
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'projects';
     }
 
+
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -49,6 +55,7 @@ class ProjectModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
@@ -56,12 +63,13 @@ class ProjectModel extends DbModel
 
     public function save(): bool
     {
-
+        //returns save method in parent class
         return parent::save();
 
     }
 
 
+    //returns the rules that projects is supposed to follow
     public function rules(): array
     {
         return [
@@ -80,6 +88,7 @@ class ProjectModel extends DbModel
         ];
     }
 
+    //returns tables this class is affiliated with
     public function relationTables(): array
     {
         return [

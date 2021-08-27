@@ -1,6 +1,8 @@
 <?php
 
-
+/*
+ * Anyone can access this page so we don't need to limit
+ */
 $staff = $params['model'];
 
 ?>

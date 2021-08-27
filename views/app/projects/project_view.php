@@ -3,11 +3,16 @@
 
 use app\core\Application;
 
-//if in the user_type that is passed to the session has no value like admin or pm, do this
-if(!in_array(Application::$app->user->user_type, ['admin', 'pm']))
-{
-    Application::$app->response->redirect('invalid-path');
-}
+/*
+ *
+ * Project  view is only limited to admin and pm alone
+ * We check from user_type in session if they are admin and pm, proceed
+ * If not tell user they don't have permission
+ */
+
+if (!in_array(Application::$app->user->user_type, ['admin', 'pm'])):
+    Application::$app->response->redirect('/invalid-path');
+endif;
 
 $projects = $params['model'];
 //Returns an instance of project that is passed via the $params params to the router

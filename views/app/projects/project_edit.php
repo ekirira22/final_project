@@ -1,5 +1,16 @@
 <?php
 /** Project Edit page */
+/*
+ *
+ * Project  create is only limited to admin and pm alone
+ * We check from user_type in session if they are admin and pm, proceed
+ * If not tell user they don't have permission
+ */
+use app\core\Application;
+if (!in_array(Application::$app->user->user_type, ['admin', 'pm'])):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 $data = $params['model'];
 //Loads data for departments, sub_counties and financial years, loops and displays as values
 //for selection

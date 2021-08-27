@@ -1,6 +1,10 @@
 <?php
 
-    if($_SESSION['user']['user_type'] !== 'admin' ):
+/*
+ * This page to is accessible to all staff to edit their personal data
+ */
+use app\core\Application;
+    if(!Application::$app->user->user_type):
         Application::$app->response->redirect('/invalid-path');
     endif;
 
@@ -24,7 +28,8 @@
                 <small><?php echo $staff->getErrors('names') ?></small>
             </div>
         </div>
-
+<!--        We give permission to edit departments only to admin alone-->
+        <?php if(in_array(Application::$app->user->user_type, ['admin'])):?>
         <div>
             <label for="">Department</label>
             <select name="dep_id" class="form-input">
@@ -40,6 +45,7 @@
                 <small><?php echo $staff->getErrors('dep_id') ?></small>
             </div>
         </div>
+        <?php endif; ?>
 
         <div>
             <label for="">ID</label>
@@ -68,7 +74,8 @@
             </div>
         </div>
 
-
+        <!--        We give permission to edit status only to admin alone-->
+        <?php if(in_array(Application::$app->user->user_type, ['admin'])):?>
         <div>
             <label for="">Status</label>
             <select name="status" class="form-input">
@@ -82,7 +89,10 @@
                 <small><?php echo $staff->getErrors('status') ?></small>
             </div>
         </div>
+        <?php endif;?>
 
+        <!--        We give permission to edit staff level only to admin alone-->
+        <?php if(in_array(Application::$app->user->user_type, ['admin'])):?>
         <div>
             <label for="">Staff level</label>
             <select name="user_type" class="form-input">
@@ -97,6 +107,8 @@
                 <small><?php echo $staff->getErrors('status') ?></small>
             </div>
         </div>
+        <?php endif;?>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

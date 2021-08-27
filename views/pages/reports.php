@@ -5,7 +5,7 @@ use app\core\Application;
 /*
  * If user is not admin
  */
-if(!in_array(Application::$app->user->user_type, ['admin']))
+if(!in_array(Application::$app->user->user_type, ['admin', 'pm', 'cec']))
 {
     Application::$app->response->redirect('invalid-path');
 }
@@ -37,7 +37,7 @@ $filtered_reports = $params['filtered']['results'];
         <!--        If user searches for no one we want to return everything-->
         <label for="">Project Status</label>
         <select name="pr_status" class="search-input">
-            <option value="pr_status" selected>Select one</option>
+            <option value="true" selected>Select one</option>
             <option value="pending" > Pending Projects </option>
             <option value="delayed" > Delayed Projects </option>
             <option value="approved" > Approved Projects </option>

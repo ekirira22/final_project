@@ -22,11 +22,13 @@ class ActivityModel extends DbModel
 
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'user_activity';
     }
 
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -34,12 +36,14 @@ class ActivityModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
     }
 
 
+    //returns the tables it is in relation with
     public function relationTables(): array
     {
         return ['staff', 'departments'];

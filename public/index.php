@@ -97,16 +97,13 @@ $app->router->get('/projects_start', [ProjectController::class, 'projects_start'
 $app->router->get('/projects_manage', [ProjectController::class, 'projects_manage']);
 $app->router->get('/projects_showcase', [ProjectController::class, 'projects_showcase']);
 $app->router->post('/projects_showcase', [ProjectController::class, 'projects_showcase']);
-
 $app->router->get('/projects_complete', [ProjectController::class, 'projects_complete']);
 
 
 
-
-
-
-
-
+/*
+ * Runs the main application
+ */
 
 
 $app->run();

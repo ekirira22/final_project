@@ -23,26 +23,32 @@ class UserModel extends DbModel
     public string $status = '';
     public string $user_type = '';
 
+
+    //returns table name in db
     public function tableName(): string
     {
         return 'staff';
     }
 
+    //returns primary key
     public function primaryKey(): string
     {
         return 'id';
     }
 
+    //returns user_type column
     public function userType(): string
     {
         return 'user_type';
     }
 
+    //returns attributes / columns i n db beloging to this class
     public function attributes(): array
     {
         return ['names', 'dep_id', 'id_number', 'mobile_no', 'email', 'password', 'status', 'user_type'];
     }
 
+    //hashes the password, this overwrites password with hashed value and called parent method in DbMOdel save()
     public function register(): bool
     {
         $this->password = md5($this->password);
@@ -70,6 +76,7 @@ class UserModel extends DbModel
         ] ;
     }
 
+    //returns relational tables
     public function relationTables(): array
     {
         return [

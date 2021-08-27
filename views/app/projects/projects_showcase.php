@@ -1,6 +1,16 @@
 <?php
 /** Project showcase */
 use app\core\Application;
+/*
+ *
+ * Project  showcase is accessible for everyone
+ * We check from user_type in session
+ * If not tell user they don't have permission
+ */
+
+if(!Application::$app->user->user_type):
+    Application::$app->response->redirect('/invalid-path');
+endif;
 
 $project = $params['model']['projects'];
 $tasks = $params['model']['tasks'];

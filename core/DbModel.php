@@ -469,31 +469,48 @@ abstract class DbModel extends Model
 
         //for the statement
         $statement = self::prepare("SELECT *, $tableName.$primaryKey FROM $tableName JOIN $sql WHERE $tableName.created_at
-                                        BETWEEN '$filter1' AND '$filter2' AND $tableName.$col[0] = '$val[0]'");
+                                        BETWEEN '$filter1' AND '$filter2' AND $tableName.$col[0] = '$val[0]' ORDER BY $tableName.$primaryKey DESC");
 
         $statement->execute();
 
         return $statement->fetchAll();
     }
 
+    /*
+     * Public function logUserActivity that accepts a description of type string and depending on the user
+     * in session, it records an activity and stores the result in the database
+     */
 
-    public static function logUserActivity($description)
+    public static function logUserActivity(string $description)
     {
+        //we get the user id from the session
         $id = (int)$_SESSION['user']['id'];
+
+        //we get the user_type from the session too, to get they type of user
         $user_type = $_SESSION['user']['user_type'];
+
+        //the table name where we will store this activity is called 'user_activity', we dont need
+        //to use a model class since no other class will use this method
         $tableName = 'user_activity';
+
+        //we get the columns of the table user_activity
         $attributes = [
             'staff_id', 'user_type', 'description'
         ];
+
+        //we then get the typed params of the attributes to use in the statement, we do this to avoid sql injection
         $params = array_map(fn($attr) => ":$attr", $attributes);
 
-
+        //we prepare the statement
         $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") 
                     VALUES (".implode(',', $params).")");
 
+        //we bind all the values
         $statement->bindValue(':staff_id', $id);
         $statement->bindValue(':user_type', $user_type);
         $statement->bindValue(':description', $description);
+
+        //we then execute the statement
         $statement->execute();
 
     }

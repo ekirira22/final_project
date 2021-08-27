@@ -16,6 +16,11 @@ class Router
      * Router constructor.
      * @param Request $request
      */
+    /*
+     * NB: In the Application class, we passed the request property to the instantiated
+     *  Router class, this $request of type Request is accessible in this class constructor
+     * We assign it to $request of type Request of this class
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -36,7 +41,7 @@ class Router
 
 
     /*This determines the 'current' URL path and the current method, get or post?
-     *From the routes[] array we need to take the correspnding callback and simply execute it
+     *From the routes[] array we need to take the corresponding callback and simply execute it
      */
     public function resolve()
     {
@@ -101,6 +106,7 @@ class Router
     public function layoutContent()
     {
 
+        //we render the layout that is passed to the controller, by default layout is 'main'
         $layout = Application::$app->controller->layout;
             ob_start();
             include_once Application::$ROOT_DIR . "/views/layouts/$layout.php";
@@ -108,8 +114,18 @@ class Router
 
     }
 
+    /*
+     * Protected function renderOnlyView that renders the view only without the layout
+     * As you can see it accepts params, these params are values gotten from the model by the controller
+     * They are then passed here to be made accessible by the view
+     */
     protected function renderOnlyView($view, $params){
 
+        /*
+         * Params will look something like ['model' => $object]
+         * We loop through this assoc array and add a variable sign before the key '$' to convert
+         * the key into a property, and then assign the corresponding value to it, this values are also loaded in the buffer
+         */
         foreach ($params as $key => $value) {
             $$key = $value;
         }

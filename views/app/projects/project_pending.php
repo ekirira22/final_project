@@ -2,10 +2,16 @@
 /** Project view */
 
 use app\core\Application;
-if(!in_array(Application::$app->user->user_type, ['admin','cec']))
-{
-    Application::$app->response->redirect('invalid-path');
-}
+/*
+ *
+ * Project  create is only limited to admin and chief officer alone
+ * We check from user_type in session if they are admin and cec, proceed
+ * If not tell user they don't have permission
+ */
+
+if (!in_array(Application::$app->user->user_type, ['admin', 'cec'])):
+    Application::$app->response->redirect('/invalid-path');
+endif;
 
 $projects = $params['model'];
 ?>

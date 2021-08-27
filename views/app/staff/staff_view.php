@@ -1,6 +1,13 @@
 <?php
 /** Staff view */
 use app\core\Application;
+
+/*
+ *
+ * Staff view is only limited to admin alone
+ * We check from user_type in session if they are admin, proceed
+ * If not tell user they don't have permission
+ */
 if($_SESSION['user']['user_type'] !== 'admin' ):
     Application::$app->response->redirect('/invalid-path');
 endif;
@@ -39,7 +46,6 @@ $staffs = $params['model'];
                     <th>User type</th>
                     <th>Id no.</th>
                     <th>Mobile no.</th>
-                    <th>Created at</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -64,9 +70,6 @@ $staffs = $params['model'];
                         </td>
                         <td>
                             <?php echo  $staff['mobile_no'] ?>
-                        </td>
-                        <td>
-                            <?php echo  date_format(date_create($staff['created_at']), 'd-M-Y') ?>
                         </td>
                         <td>
                             <div style="display: flex; justify-content: space-evenly">

@@ -1,10 +1,17 @@
-
+/*
+ *We define a variable dropdown that gets elements with classname 'dropdown-btn'
+ */
 var dropdown = document.getElementsByClassName('dropdown-btn');
+//We declare variable i that we will use in the for loop
 var i;
 
 for (i = 0; i < dropdown.length; i++) {
+  //for the dropdown length, add an event listener
   dropdown[i].addEventListener("click", function() {
+    //toggle each if selected, add active, then add block or
+    //none display styles
     this.classList.toggle("active");
+
     var dropdownContent = this.nextElementSibling;
 
     if (dropdownContent.style.display === "block") {

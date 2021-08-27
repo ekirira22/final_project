@@ -21,11 +21,13 @@ class TaskModel extends DbModel
 
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'tasks';
     }
 
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -36,11 +38,13 @@ class TaskModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
     }
 
+    //calls parent method save that takes care of saving data in db
     public function save(): bool
     {
 

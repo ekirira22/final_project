@@ -3,6 +3,17 @@ $projects = $params['model'];
 $searchValue = $params['search']['value'];
 $searches = $params['search']['results'] ?? false;
 
+/*
+ * Counters for project statuses
+ */
+
+$completed = $params['counters']['completed'];
+$approved = $params['counters']['approved'];
+$pending = $params['counters']['pending'];
+$ongoing = $params['counters']['ongoing'];
+$delayed = $params['counters']['delayed'];
+
+
 //echo '<pre>';
 //var_dump($searches);
 //echo '</pre>'
@@ -35,6 +46,7 @@ $searches = $params['search']['results'] ?? false;
             </div>
             <div class="card-content">
                 <h3 class="card-text">
+                    <?php echo count($completed)?>
                 </h3>
             </div>
         </div>
@@ -45,6 +57,7 @@ $searches = $params['search']['results'] ?? false;
             </div>
             <div class="card-content">
                 <h3 class="card-text">
+                    <?php echo count($approved)?>
                 </h3>
             </div>
         </div>
@@ -55,6 +68,7 @@ $searches = $params['search']['results'] ?? false;
             </div>
             <div class="card-content">
                 <h3 class="card-text">
+                    <?php echo count($pending)?>
                 </h3>
             </div>
         </div>
@@ -65,6 +79,7 @@ $searches = $params['search']['results'] ?? false;
             </div>
             <div class="card-content">
                 <h3 class="card-text">
+                    <?php echo count($ongoing)?>
                 </h3>
             </div>
         </div>
@@ -75,6 +90,7 @@ $searches = $params['search']['results'] ?? false;
             </div>
             <div class="card-content">
                 <h3 class="card-text">
+                    <?php echo count($delayed)?>
                 </h3>
             </div>
         </div>

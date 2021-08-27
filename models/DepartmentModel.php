@@ -17,11 +17,13 @@ class DepartmentModel extends DbModel
 
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'departments';
     }
 
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -29,12 +31,14 @@ class DepartmentModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
     }
 
 
+    //returns the rules that this class is supposed to follow
     public function rules(): array
     {
         return [

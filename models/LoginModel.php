@@ -38,9 +38,15 @@ class LoginModel extends DbModel
             return false;
         }
 
+        /*
+         * If all conditions are met, then pass the user object to login method inside
+         * the Application class
+         */
         Application::$app->login($user);
         return true;
     }
+
+    //returns the rules loginModel should follow
 
     public function rules(): array
     {

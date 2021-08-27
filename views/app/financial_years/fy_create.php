@@ -3,10 +3,16 @@
 
 use app\core\Application;
 
+/*
+ * Financial year create is only limited to admin alone
+ * We check from user_type in session if they are admin, proceed
+ * If not tell user they don't have permission
+ */
+
 if($_SESSION['user']['user_type'] !== 'admin' ):
     Application::$app->response->redirect('/invalid-path');
 endif;
-
+//get params of financial years and store in fy
 $fy = $params['model'];
 ?>
 

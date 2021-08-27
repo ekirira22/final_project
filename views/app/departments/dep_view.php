@@ -1,8 +1,14 @@
 <?php
 /** Department View page */
+/*
+ * Departments create is only limited to admin alone
+ * We check from user_type in session if they are admin, proceed
+ * If not tell user they don't have permission
+ */
 if($_SESSION['user']['user_type'] !== 'admin' ):
     Application::$app->response->redirect('/invalid-path');
 endif;
+//get params of department and store in departments
 $departments = $params['model'];
 ?>
 
@@ -27,7 +33,7 @@ $departments = $params['model'];
                 <tr>
                     <th>Department</th>
                     <th>Status</th>
-                    <th>Created at</th>
+                    <th>Created On</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -44,7 +50,7 @@ $departments = $params['model'];
                             </span>
                         </td>
                         <td>
-                            <?php echo  date_format(date_create($department['created_at']), 'd-M-Y') ?>
+                            <?php echo  date_format(date_create($department['created_on']), 'd-M-Y') ?>
                         </td>
                         <td>
                             <a href="/department_edit?id=<?php echo $department['id'] ?>" class="btn btn-secondary btn-inline">Edit</a>

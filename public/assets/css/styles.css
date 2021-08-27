@@ -1,3 +1,7 @@
+/*
+ * here in root we will declare all the colors that we want to access
+ *We will use var() to access these properties
+ */
 :root {
     --white: #ffffff;
     --grey: #707070;
@@ -111,7 +115,7 @@ a {
     padding-top: 32px;
 }
 
-/** Navigation */
+/** CSS for Navigation */
 nav {
     background-color: var(--m-green);
 }
@@ -131,6 +135,7 @@ ul {
     pointer-events: none;
 }
 
+/*Padding for list tags*/
 li a {
     display: inline-block;
     color: white;
@@ -148,6 +153,8 @@ li a:hover, .dropdown:hover {
 li.dropdown {
     display: inline-block;
 }
+
+/*Padding for drop down content*/
 
 .dropdown-content {
     display: none;
@@ -178,6 +185,8 @@ li.dropdown {
     max-width: 100%;
 }
 
+/*CSS for justify*/
+
 .justify-space-around {
     justify-content: space-around;
 }
@@ -194,6 +203,8 @@ li.dropdown {
     justify-content: flex-start;
 }
 
+/*CSS for alignment*/
+
 .align-items-baseline {
     align-items: baseline;
 }
@@ -201,6 +212,8 @@ li.dropdown {
 .align-items-center {
     align-items: center;
 }
+
+/*Login container CSS*/
 
 .login-container {
     position: absolute;
@@ -215,17 +228,14 @@ li.dropdown {
     background-color: #ffffff;
     padding: 50px;
     width: 500px;
-    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-.login-image {
-}
 
-.bg-img {
-    background-image: url('../img/mountain.jpg');
-    background-size: cover;
-    background-position: center;
-}
+/*.bg-img {*/
+/*    background-image: url('../img/mountain.jpg');*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*}*/
 
 .login,
 .image {
@@ -236,16 +246,22 @@ li.dropdown {
     width: 70%;
 }
 
+/*Container styling*/
+
 .container {
     max-width: 80%;
     margin: auto;
 }
+
+/*Styling for grids used in project*/
 
 .g-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 15px;
 }
+
+/*Font and text styling*/
 
 .main-heading {
     font-family: 'Oswald Light', serif;
@@ -299,6 +315,8 @@ li.dropdown {
     background-color: #0583F2;
 }
 
+/*Card styling for project display*/
+
 .card {
     width: 90%;
     border-radius: 5px;
@@ -320,6 +338,14 @@ li.dropdown {
     display: grid;
     grid-gap: 10px;
 }
+
+.card-text {
+    font-family: "Roboto Black", serif;
+    color: #733703;
+    font-size: 20px;
+}
+
+/*Badge styling*/
 
 .badge {
     padding: 5px;
@@ -351,13 +377,8 @@ li.dropdown {
     background-color: cyan;
 }
 
-.card-text {
-    font-family: "Roboto Black", serif;
-    color: #733703;
-    font-size: 20px;
-}
 
-/** Table */
+/** Table Styling */
 th, td {
     font-size: 18px;
     padding: 1rem 1rem;
@@ -373,6 +394,8 @@ td {
 .recent {
     margin-top: 3rem;
 }
+
+/*Activity card styling*/
 
 .activity-card {
     background: #fff;
@@ -395,27 +418,23 @@ td {
     text-align: left;
 }
 
-.table-responsive {
-    overflow-x: auto;
-    overflow-y: auto;
-
-}
 
 tbody tr:nth-child(even) {
     background: #f9fafc;
 }
 
-/** Forms */
+/** Form Styling*/
 label {
     font-family: "Roboto Medium", serif;
     color: #707070;
 }
 
+/*Form and Search input boxes CSS*/
+
 .form-input {
     padding: 10px;
     margin:10px 0;
     border: 2px solid #dbdbdb;
-    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     display: block;
     width: 100%;
     font-size: medium;
@@ -427,7 +446,6 @@ label {
     padding: 10px;
     margin:10px 0;
     border: 2px solid #dbdbdb;
-    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     font-size: medium;
     color: #707070;
 }
@@ -435,6 +453,8 @@ label {
 .input-invalid {
     border-color: #cb1212;
 }
+
+/*Error div css*/
 
 .error {
     margin-bottom: 10px;
@@ -444,6 +464,8 @@ label {
     color: #cb1212;
     font-family: "Roboto Medium", serif;
 }
+
+/*Styling for buttons*/
 
 .btn-inline {
     display: inline-block;
@@ -482,6 +504,8 @@ label {
     background-color: cyan;
 }
 
+/*CSS for alert boxes*/
+
 .alert {
     padding: 15px;
     margin-top: 5px;
@@ -496,41 +520,6 @@ label {
 .alert-danger {
     color: #ffffff;
     background-color: #c84747;
-}
-
-/** Animation **/
-.fade-in {
-    opacity: 1;
-    animation-name: fadeInOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: 1s;
-}
-
-@keyframes fadeInOpacity {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-.fade-out {
-    opacity: 1;
-    animation-name: fadeOutOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-out;
-    animation-duration: 3s;
-}
-
-@keyframes fadeOutOpacity {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
 }
 
 

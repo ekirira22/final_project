@@ -1,6 +1,18 @@
 <?php
 /** Project showcases */
 use app\core\Application;
+
+/*
+ *
+ * Project  manager is available for all users
+ *
+ * If not user they don't have permission
+ */
+
+if(!Application::$app->user->user_type):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 //Gets all projects where status is ongoing
 $projects = $params['model']['projects'];
 

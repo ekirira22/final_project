@@ -1,13 +1,19 @@
 <?php
 
 namespace app\core;
-/* This will be the parent class for most classes*/
-
+/*
+ * This will be the parent/base class for most classes, it will be the first class that is instantiated whenever
+ * a new route is called in order to resolve and display the provided callback for that path
+ */
 use app\controllers\Controller;
 use app\models\UserModel;
-
+/*
+ * Main class Application
+ */
 class Application
 {
+    /* Class Properties */
+
     public static string $ROOT_DIR;
     public static Application $app;
     public Router $router;
@@ -36,8 +42,12 @@ class Application
 
         /*
          * Session Implementation
+         * we use the get method inside the session class to get the id of user in session, we do this so that we can
+         * maintain user session each time a new request is made
          */
+
         $primaryValue = $this->session->get('user');
+        //if the user exists,
         if($primaryValue)
         {
             //Meaning user is logged in since 'user' has a value
@@ -45,34 +55,41 @@ class Application
             $this->user = UserModel::findOneRecord([$primaryKey => $primaryValue]);
             //This makes sure you can access the userObj at any point in the application
         }else{
+            //else set the user to null
             $this->user = null;
         }
 
     }
+
+    /*
+     * This is the main function of the application class that resolves the page and executes a callback if a
+     * new request ins made
+     */
 
     public function run()
     {
         echo $this->router->resolve();
     }
 
-//    public function getController(): Controller
-//    {
-//        return $this->controller;
-//    }
-//
-//    public function setController(Controller $controller): void
-//    {
-//        $this->controller = $controller;
-//    }
+    /*
+     * This method is called from the LoginUser method inside the LoginModel class, we receive an object $user of type UserModel
+     * DbModel can also be used since UserModel extends DbModel
+     */
     public function login(UserModel $user)
     {
+        //we store the object inside property $user of this class, we want to do this so that we can store the user
+        //in session
         $this->user = $user;
+        //we get the primaryKey from userModel which basically returns column 'id'
         $primaryKey = $user->primaryKey();
+        //we get the userType from userModel which basically returns column 'userType'
         $userType = $user->userType();
+        //we get the primaryValue of user.. i.e id of user by calling $user->id and store it to primaryValue
         $primaryValue = $user->{$primaryKey};
+        //we get the userTypeValue of user.. i.e user_type of user by calling $user->user_type and store it to userTypeValue
         $userTypeValue = $user->{$userType};
 
-        //set session for user
+        //we then set session for user
 
         $this->session->set('user', [$primaryKey => $primaryValue, $userType => $userTypeValue]);
 
@@ -83,7 +100,7 @@ class Application
          */
 
         /*
-         * Log logged in user
+         * Log user activity i.e. logged in user
          */
         DbModel::logUserActivity('logged into the system');
 
@@ -92,11 +109,17 @@ class Application
     public function logout()
     {
         /*
-         * Log logged out user
+         * Log logged out user before session is killed
          */
         DbModel::logUserActivity('logged out of the system');
+
+        //set property $user of this class to null
         $this->user = null;
+
+        //we call a method remove inside session that unsets the user key inside $_SESSION
         $this->session->remove('user');
+
+        //we then redirect the user back to home page using the redirect method inside Response class
         $this->response->redirect('/');
 
 

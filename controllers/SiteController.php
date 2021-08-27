@@ -54,6 +54,14 @@ class SiteController extends Controller
             'search' => [
                 'value' => $search,
                 'results' => $results
+            ],
+            'counters' => [
+                'completed' => ProjectModel::findAllWhere(['pr_status' => 'complete']),
+                'approved' => ProjectModel::findAllWhere(['pr_status' => 'approved']),
+                'pending' => ProjectModel::findAllWhere(['pr_status' => 'pending']),
+                'ongoing' => ProjectModel::findAllWhere(['pr_status' => 'ongoing']),
+                'delayed' => ProjectModel::findAllWhere(['pr_status' => 'delayed'])
+
             ]
         ]);
     }
@@ -86,6 +94,14 @@ class SiteController extends Controller
             'search' => [
                 'value' => $search,
                 'results' => $results
+            ],
+            'counters' => [
+                'completed' => ProjectModel::findAllWhere(['pr_status' => 'complete']),
+                'approved' => ProjectModel::findAllWhere(['pr_status' => 'approved']),
+                'pending' => ProjectModel::findAllWhere(['pr_status' => 'pending']),
+                'ongoing' => ProjectModel::findAllWhere(['pr_status' => 'ongoing']),
+                'delayed' => ProjectModel::findAllWhere(['pr_status' => 'delayed'])
+
             ]
         ]);
     }

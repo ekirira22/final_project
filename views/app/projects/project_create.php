@@ -3,7 +3,16 @@
 
 use app\core\Application;
 
-if($_SESSION['user']['user_type'] == 'admin' || $_SESSION['user']['user_type'] == 'pm' ):
+/*
+ *
+ * Project  create is only limited to admin and pm alone
+ * We check from user_type in session if they are admin and pm, proceed
+ * If not tell user they don't have permission
+ */
+
+if (!in_array(Application::$app->user->user_type, ['admin', 'pm'])):
+    Application::$app->response->redirect('/invalid-path');
+endif;
 
 $subcounties = $params['subCountyModel'];
 //Returns an object with all the sub counties from the database
@@ -124,6 +133,3 @@ $staffs = $params['staffs']
     </form>
 </div>
 
-<?php
-    endif;
-?>

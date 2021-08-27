@@ -1,3 +1,16 @@
+<?php
+
+/*
+ * Counters for project statuses
+ */
+
+$completed = $params['counters']['completed'];
+$approved = $params['counters']['approved'];
+$pending = $params['counters']['pending'];
+$ongoing = $params['counters']['ongoing'];
+$delayed = $params['counters']['delayed'];
+
+?>
 <main>
 
     <div class="container">
@@ -18,7 +31,7 @@
                     </div>
                     <div class="card-content">
                         <h3 class="card-text">
-
+                            <?php echo count($projects)?>
                         </h3>
                     </div>
                 </div>
@@ -29,18 +42,7 @@
                     </div>
                     <div class="card-content">
                         <h3 class="card-text">
-
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header py-8">
-                        <h2 class="card-heading">Ongoing Projects</h2>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-text">
-
+                            <?php echo count($completed)?>
                         </h3>
                     </div>
                 </div>
@@ -51,7 +53,7 @@
                     </div>
                     <div class="card-content">
                         <h3 class="card-text">
-
+                            <?php echo count($approved)?>
                         </h3>
                     </div>
                 </div>
@@ -62,7 +64,18 @@
                     </div>
                     <div class="card-content">
                         <h3 class="card-text">
+                            <?php echo count($pending)?>
+                        </h3>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <div class="card-header py-8">
+                        <h2 class="card-heading">Ongoing Projects</h2>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-text">
+                            <?php echo count($ongoing)?>
                         </h3>
                     </div>
                 </div>
@@ -73,7 +86,7 @@
                     </div>
                     <div class="card-content">
                         <h3 class="card-text">
-
+                            <?php echo count($delayed)?>
                         </h3>
                     </div>
                 </div>

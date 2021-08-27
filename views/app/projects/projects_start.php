@@ -1,6 +1,17 @@
 <?php
 /** Project showcases */
 use app\core\Application;
+/*
+ *
+ * Project  start is only limited to admin and pm alone
+ * We check from user_type in session if they are admin and pm, proceed
+ * If not tell user they don't have permission
+ */
+
+if (!in_array(Application::$app->user->user_type, ['admin', 'pm'])):
+    Application::$app->response->redirect('/invalid-path');
+endif;
+
 //Gets all projects where status is ongoing
 $projects = $params['model']['projects'];
 

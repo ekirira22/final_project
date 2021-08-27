@@ -17,11 +17,13 @@ class SubCountyModel extends DbModel
     public string $ward = '';
 
 
+    //returns table name in db
     public function tableName(): string
     {
         return 'sub_counties';
     }
 
+    //returns columns in db
     public function attributes(): array
     {
         return [
@@ -29,6 +31,7 @@ class SubCountyModel extends DbModel
         ];
     }
 
+    //returns primaryKey in db
     public function primaryKey(): string
     {
         return 'id';
@@ -39,6 +42,7 @@ class SubCountyModel extends DbModel
         // TODO: Implement userType() method.
     }
 
+    //returns the rules this class should follow
     public function rules(): array
     {
         return [
