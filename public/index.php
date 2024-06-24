@@ -19,7 +19,7 @@ use app\controllers\TaskController;
 
 $config = [
     'db' => [
-        'dsn' => 'mysql:host=localhost;port=3306;dbname=final_pms',
+        'dsn' => 'mysql:host=localhost;port=3306;dbname=pms',
         'user' => 'root',
         'password' => '',
     ]

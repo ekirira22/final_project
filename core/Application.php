@@ -7,6 +7,9 @@ namespace app\core;
  */
 use app\controllers\Controller;
 use app\models\UserModel;
+
+error_reporting(0); // Turn off all error reporting
+ini_set('display_errors', '0'); // Do not display errors
 /*
  * Main class Application
  */
